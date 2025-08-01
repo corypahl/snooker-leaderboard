@@ -13,6 +13,14 @@
             <div class="last-updated">
                 Last updated: <span id="lastUpdated">Loading...</span>
             </div>
+            <div class="data-source">
+                Data source: <span id="dataSource">Loading...</span>
+            </div>
+            <div class="refresh-controls">
+                <button id="refreshData" class="refresh-btn" title="Refresh tournament data">
+                    🔄 Refresh
+                </button>
+            </div>
         </div>
     </header>
 
@@ -38,6 +46,20 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            
+            <div class="status-legend">
+                <h3>Player Status</h3>
+                <div class="legend-items">
+                    <div class="legend-item">
+                        <span class="status-icon">🎱</span>
+                        <span>Still playing</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="status-icon">❌</span>
+                        <span>Eliminated (points shown)</span>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -70,18 +92,20 @@
                 Points are awarded based on how far each player advances in the 2025 Saudi Arabia Snooker Masters.
                 The participant with the highest total score wins the contest and gets first pick in the fantasy football draft!
             </p>
-            <div class="status-legend">
-                <h3>Player Status</h3>
-                <div class="legend-items">
-                    <div class="legend-item">
-                        <span class="status-icon">🎱</span>
-                        <span>Still playing</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="status-icon">❌</span>
-                        <span>Eliminated (points shown)</span>
-                    </div>
+            
+            <div class="tournament-structure">
+                <h3>Tournament Structure</h3>
+                <div class="rounds-grid" id="roundsInfo">
+                    <!-- Rounds information will be populated by JavaScript -->
                 </div>
+            </div>
+            
+            <div class="seeding-info">
+                <h3>Seeding Information</h3>
+                <p>• Top 16 players seeded through to Last 32</p>
+                <p>• Players ranked 17-48 seeded through to Round 3</p>
+                <p>• Players ranked 49-80 seeded through to Round 2</p>
+                <p>• All other players start in Round 1</p>
             </div>
         </section>
 
@@ -91,13 +115,24 @@
                 <div class="loading">Loading tournament information...</div>
             </div>
         </section>
+
+        <section class="relevant-matches">
+            <h2>Relevant Matches</h2>
+            <p class="section-description">Matches involving players picked by participants</p>
+            <div id="relevantMatchesContainer" class="relevant-matches-container">
+                <div class="loading">Loading relevant matches...</div>
+            </div>
+        </section>
     </main>
 
     <footer>
         <p>&copy; 2025 Snooker Draft Order Contest</p>
     </footer>
 
+    <script src="participants-loader.js"></script>
+    <script src="wst-fetcher.js"></script>
     <script src="leaderboard.js"></script>
     <script src="bracket.js"></script>
+    <script src="relevant-matches.js"></script>
 </body>
 </html> 

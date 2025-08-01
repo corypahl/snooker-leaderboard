@@ -52,6 +52,54 @@ header h1 {
     font-style: italic;
 }
 
+.data-source {
+    font-size: 0.9rem;
+    color: #888;
+    font-style: italic;
+    margin-top: 0.5rem;
+}
+
+.data-source.live {
+    color: #4ecdc4;
+    font-weight: 600;
+}
+
+.data-source.static {
+    color: #ff6b6b;
+}
+
+.refresh-controls {
+    margin-top: 1rem;
+}
+
+.refresh-btn {
+    background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.refresh-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.refresh-btn:active {
+    transform: translateY(0);
+}
+
+.refresh-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
 .header-controls {
     display: flex;
     justify-content: center;
@@ -102,6 +150,8 @@ section h2 {
     border-radius: 12px;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 table {
@@ -259,6 +309,64 @@ td:nth-child(5) {
     font-size: 1.2rem;
 }
 
+/* Status legend under leaderboard */
+.leaderboard-section .status-legend {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.leaderboard-section .status-legend h3 {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    color: #b0b0b0;
+}
+
+.leaderboard-section .legend-items {
+    gap: 1rem;
+}
+
+.leaderboard-section .legend-item {
+    font-size: 0.85rem;
+}
+
+/* Tournament Structure and Seeding Info in How It Works */
+.tournament-structure {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tournament-structure h3 {
+    color: #4ecdc4;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.seeding-info {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.seeding-info h3 {
+    color: #4ecdc4;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.seeding-info p {
+    margin: 0.5rem 0;
+    color: #e0e0e0;
+    font-size: 0.95rem;
+}
+
 /* Footer */
 footer {
     text-align: center;
@@ -312,6 +420,47 @@ footer {
         align-items: center;
         gap: 1rem;
     }
+
+    .tournament-structure,
+    .seeding-info {
+        padding: 1rem;
+        margin: 1.5rem 0;
+    }
+
+    .tournament-structure h3,
+    .seeding-info h3 {
+        font-size: 1rem;
+    }
+
+    .leaderboard-section .status-legend {
+        padding: 0.75rem;
+    }
+
+    .leaderboard-section .status-legend h3 {
+        font-size: 0.85rem;
+    }
+
+    .leaderboard-section .legend-items {
+        gap: 0.75rem;
+    }
+
+    .relevant-matches-container {
+        grid-template-columns: 1fr;
+    }
+
+    .match-card {
+        padding: 1rem;
+    }
+
+    .player-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+    }
+
+    .player-picked-by {
+        font-size: 0.75rem;
+    }
     
     /* Stack table columns on very small screens */
     @media (max-width: 480px) {
@@ -340,6 +489,156 @@ footer {
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     margin-bottom: 3rem;
+}
+
+/* Relevant Matches Section */
+.relevant-matches {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 3rem;
+}
+
+.relevant-matches h2 {
+    text-align: center;
+    margin-bottom: 0.5rem;
+    color: #fff;
+}
+
+.section-description {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #b0b0b0;
+    font-size: 1rem;
+    font-style: italic;
+}
+
+.relevant-matches-container {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.match-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 1.5rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.match-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.match-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.match-round {
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    color: #4ecdc4;
+}
+
+.match-number {
+    font-size: 0.8rem;
+    color: #b0b0b0;
+}
+
+.match-players {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.player-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    transition: background 0.2s ease;
+}
+
+.player-row:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.player-name {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #fff;
+}
+
+.player-picked-by {
+    font-size: 0.8rem;
+    color: #4ecdc4;
+    font-style: italic;
+}
+
+.match-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.status-scheduled {
+    color: #ffd700;
+}
+
+.status-live {
+    color: #ff6b6b;
+    animation: pulse 2s infinite;
+}
+
+.status-completed {
+    color: #4ecdc4;
+}
+
+.status-winner {
+    color: #ffd700;
+    font-weight: 700;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.no-relevant-matches {
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.2rem;
+    color: #b0b0b0;
+    font-style: italic;
 }
 
 .bracket-container {

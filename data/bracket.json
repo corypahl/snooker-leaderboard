@@ -146,99 +146,183 @@
     "quadrants": {
       "topLeft": {
         "name": "Top Left Quadrant",
-        "matches": [1, 2, 3, 4, 5, 6, 7, 8],
+        "matches": [113, 114, 115, 116, 117, 118, 119, 120],
         "players": ["judd_trump", "ali_carter", "neil_robertson", "mark_selby", "john_higgins", "zhang_anda", "shaun_murphy", "mark_williams"]
       },
       "topRight": {
         "name": "Top Right Quadrant", 
-        "matches": [9, 10, 11, 12, 13, 14, 15, 16],
+        "matches": [121, 122, 123, 124, 125, 126, 127, 128],
         "players": ["kyren_wilson", "si_jiahui", "mark_allen", "ronnie_osullivan", "ding_junhui", "barry_hawkins", "chris_wakelin", "zhao_xintong"]
+      },
+      "bottomLeft": {
+        "name": "Bottom Left Quadrant",
+        "matches": [129, 130, 131, 132, 133, 134, 135, 136],
+        "players": ["luca_brecel", "gary_wilson", "tom_ford", "stuart_bingham", "yan_bingtao", "anthony_mcgill", "robert_milkins", "jordan_brown"]
+      },
+      "bottomRight": {
+        "name": "Bottom Right Quadrant",
+        "matches": [137, 138, 139, 140, 141, 142, 143, 144],
+        "players": ["matthew_selt", "graeme_dott", "stephen_maguire", "ryan_day", "joe_perry", "jack_lisowski", "zhou_yuelong", "david_gilbert"]
       }
     },
     "sections": {
       "section1": {
-        "name": "Section 1 (Matches 1-4)",
-        "matches": [1, 2, 3, 4],
+        "name": "Section 1 (Matches 113-116)",
+        "matches": [113, 114, 115, 116],
         "players": ["judd_trump", "ali_carter", "neil_robertson", "mark_selby"],
         "path": {
-          "last16": [1, 2],
-          "quarterfinals": [1],
-          "semifinals": [1],
-          "final": [1]
+          "last16": [57, 58],
+          "quarterfinals": [29],
+          "semifinals": [15],
+          "final": [8]
         }
       },
       "section2": {
-        "name": "Section 2 (Matches 5-8)", 
-        "matches": [5, 6, 7, 8],
+        "name": "Section 2 (Matches 117-120)", 
+        "matches": [117, 118, 119, 120],
         "players": ["john_higgins", "zhang_anda", "shaun_murphy", "mark_williams"],
         "path": {
-          "last16": [3, 4],
-          "quarterfinals": [2],
-          "semifinals": [1],
-          "final": [1]
+          "last16": [59, 60],
+          "quarterfinals": [30],
+          "semifinals": [15],
+          "final": [8]
         }
       },
       "section3": {
-        "name": "Section 3 (Matches 9-12)",
-        "matches": [9, 10, 11, 12], 
+        "name": "Section 3 (Matches 121-124)",
+        "matches": [121, 122, 123, 124], 
         "players": ["kyren_wilson", "si_jiahui", "mark_allen", "ronnie_osullivan"],
         "path": {
-          "last16": [5, 6],
-          "quarterfinals": [3],
-          "semifinals": [2],
-          "final": [1]
+          "last16": [61, 62],
+          "quarterfinals": [31],
+          "semifinals": [16],
+          "final": [8]
         }
       },
       "section4": {
-        "name": "Section 4 (Matches 13-16)",
-        "matches": [13, 14, 15, 16],
+        "name": "Section 4 (Matches 125-128)",
+        "matches": [125, 126, 127, 128],
         "players": ["ding_junhui", "barry_hawkins", "chris_wakelin", "zhao_xintong"],
         "path": {
-          "last16": [7, 8],
-          "quarterfinals": [4],
-          "semifinals": [2],
-          "final": [1]
+          "last16": [63, 64],
+          "quarterfinals": [32],
+          "semifinals": [16],
+          "final": [8]
+        }
+      },
+      "section5": {
+        "name": "Section 5 (Matches 129-132)",
+        "matches": [129, 130, 131, 132],
+        "players": ["luca_brecel", "gary_wilson", "tom_ford", "stuart_bingham"],
+        "path": {
+          "last16": [65, 66],
+          "quarterfinals": [33],
+          "semifinals": [17],
+          "final": [9]
+        }
+      },
+      "section6": {
+        "name": "Section 6 (Matches 133-136)",
+        "matches": [133, 134, 135, 136],
+        "players": ["yan_bingtao", "anthony_mcgill", "robert_milkins", "jordan_brown"],
+        "path": {
+          "last16": [67, 68],
+          "quarterfinals": [34],
+          "semifinals": [17],
+          "final": [9]
+        }
+      },
+      "section7": {
+        "name": "Section 7 (Matches 137-140)",
+        "matches": [137, 138, 139, 140],
+        "players": ["matthew_selt", "graeme_dott", "stephen_maguire", "ryan_day"],
+        "path": {
+          "last16": [69, 70],
+          "quarterfinals": [35],
+          "semifinals": [18],
+          "final": [9]
+        }
+      },
+      "section8": {
+        "name": "Section 8 (Matches 141-144)",
+        "matches": [141, 142, 143, 144],
+        "players": ["joe_perry", "jack_lisowski", "zhou_yuelong", "david_gilbert"],
+        "path": {
+          "last16": [71, 72],
+          "quarterfinals": [36],
+          "semifinals": [18],
+          "final": [9]
         }
       }
     },
     "matchProgression": {
       "last32": {
-        "1": {"last16": 1, "quarterfinals": 1, "semifinals": 1, "final": 1},
-        "2": {"last16": 1, "quarterfinals": 1, "semifinals": 1, "final": 1},
-        "3": {"last16": 2, "quarterfinals": 1, "semifinals": 1, "final": 1},
-        "4": {"last16": 2, "quarterfinals": 1, "semifinals": 1, "final": 1},
-        "5": {"last16": 3, "quarterfinals": 2, "semifinals": 1, "final": 1},
-        "6": {"last16": 3, "quarterfinals": 2, "semifinals": 1, "final": 1},
-        "7": {"last16": 4, "quarterfinals": 2, "semifinals": 1, "final": 1},
-        "8": {"last16": 4, "quarterfinals": 2, "semifinals": 1, "final": 1},
-        "9": {"last16": 5, "quarterfinals": 3, "semifinals": 2, "final": 1},
-        "10": {"last16": 5, "quarterfinals": 3, "semifinals": 2, "final": 1},
-        "11": {"last16": 6, "quarterfinals": 3, "semifinals": 2, "final": 1},
-        "12": {"last16": 6, "quarterfinals": 3, "semifinals": 2, "final": 1},
-        "13": {"last16": 7, "quarterfinals": 4, "semifinals": 2, "final": 1},
-        "14": {"last16": 7, "quarterfinals": 4, "semifinals": 2, "final": 1},
-        "15": {"last16": 8, "quarterfinals": 4, "semifinals": 2, "final": 1},
-        "16": {"last16": 8, "quarterfinals": 4, "semifinals": 2, "final": 1}
+        "113": {"last16": 57, "quarterfinals": 29, "semifinals": 15, "final": 8},
+        "114": {"last16": 57, "quarterfinals": 29, "semifinals": 15, "final": 8},
+        "115": {"last16": 58, "quarterfinals": 29, "semifinals": 15, "final": 8},
+        "116": {"last16": 58, "quarterfinals": 29, "semifinals": 15, "final": 8},
+        "117": {"last16": 59, "quarterfinals": 30, "semifinals": 15, "final": 8},
+        "118": {"last16": 59, "quarterfinals": 30, "semifinals": 15, "final": 8},
+        "119": {"last16": 60, "quarterfinals": 30, "semifinals": 15, "final": 8},
+        "120": {"last16": 60, "quarterfinals": 30, "semifinals": 15, "final": 8},
+        "121": {"last16": 61, "quarterfinals": 31, "semifinals": 16, "final": 8},
+        "122": {"last16": 61, "quarterfinals": 31, "semifinals": 16, "final": 8},
+        "123": {"last16": 62, "quarterfinals": 31, "semifinals": 16, "final": 8},
+        "124": {"last16": 62, "quarterfinals": 31, "semifinals": 16, "final": 8},
+        "125": {"last16": 63, "quarterfinals": 32, "semifinals": 16, "final": 8},
+        "126": {"last16": 63, "quarterfinals": 32, "semifinals": 16, "final": 8},
+        "127": {"last16": 64, "quarterfinals": 32, "semifinals": 16, "final": 8},
+        "128": {"last16": 64, "quarterfinals": 32, "semifinals": 16, "final": 8},
+        "129": {"last16": 65, "quarterfinals": 33, "semifinals": 17, "final": 9},
+        "130": {"last16": 65, "quarterfinals": 33, "semifinals": 17, "final": 9},
+        "131": {"last16": 66, "quarterfinals": 33, "semifinals": 17, "final": 9},
+        "132": {"last16": 66, "quarterfinals": 33, "semifinals": 17, "final": 9},
+        "133": {"last16": 67, "quarterfinals": 34, "semifinals": 17, "final": 9},
+        "134": {"last16": 67, "quarterfinals": 34, "semifinals": 17, "final": 9},
+        "135": {"last16": 68, "quarterfinals": 34, "semifinals": 17, "final": 9},
+        "136": {"last16": 68, "quarterfinals": 34, "semifinals": 17, "final": 9},
+        "137": {"last16": 69, "quarterfinals": 35, "semifinals": 18, "final": 9},
+        "138": {"last16": 69, "quarterfinals": 35, "semifinals": 18, "final": 9},
+        "139": {"last16": 70, "quarterfinals": 35, "semifinals": 18, "final": 9},
+        "140": {"last16": 70, "quarterfinals": 35, "semifinals": 18, "final": 9},
+        "141": {"last16": 71, "quarterfinals": 36, "semifinals": 18, "final": 9},
+        "142": {"last16": 71, "quarterfinals": 36, "semifinals": 18, "final": 9},
+        "143": {"last16": 72, "quarterfinals": 36, "semifinals": 18, "final": 9},
+        "144": {"last16": 72, "quarterfinals": 36, "semifinals": 18, "final": 9}
       },
       "last16": {
-        "1": {"quarterfinals": 1, "semifinals": 1, "final": 1},
-        "2": {"quarterfinals": 1, "semifinals": 1, "final": 1},
-        "3": {"quarterfinals": 2, "semifinals": 1, "final": 1},
-        "4": {"quarterfinals": 2, "semifinals": 1, "final": 1},
-        "5": {"quarterfinals": 3, "semifinals": 2, "final": 1},
-        "6": {"quarterfinals": 3, "semifinals": 2, "final": 1},
-        "7": {"quarterfinals": 4, "semifinals": 2, "final": 1},
-        "8": {"quarterfinals": 4, "semifinals": 2, "final": 1}
+        "57": {"quarterfinals": 29, "semifinals": 15, "final": 8},
+        "58": {"quarterfinals": 29, "semifinals": 15, "final": 8},
+        "59": {"quarterfinals": 30, "semifinals": 15, "final": 8},
+        "60": {"quarterfinals": 30, "semifinals": 15, "final": 8},
+        "61": {"quarterfinals": 31, "semifinals": 16, "final": 8},
+        "62": {"quarterfinals": 31, "semifinals": 16, "final": 8},
+        "63": {"quarterfinals": 32, "semifinals": 16, "final": 8},
+        "64": {"quarterfinals": 32, "semifinals": 16, "final": 8},
+        "65": {"quarterfinals": 33, "semifinals": 17, "final": 9},
+        "66": {"quarterfinals": 33, "semifinals": 17, "final": 9},
+        "67": {"quarterfinals": 34, "semifinals": 17, "final": 9},
+        "68": {"quarterfinals": 34, "semifinals": 17, "final": 9},
+        "69": {"quarterfinals": 35, "semifinals": 18, "final": 9},
+        "70": {"quarterfinals": 35, "semifinals": 18, "final": 9},
+        "71": {"quarterfinals": 36, "semifinals": 18, "final": 9},
+        "72": {"quarterfinals": 36, "semifinals": 18, "final": 9}
       },
       "quarterfinals": {
-        "1": {"semifinals": 1, "final": 1},
-        "2": {"semifinals": 1, "final": 1},
-        "3": {"semifinals": 2, "final": 1},
-        "4": {"semifinals": 2, "final": 1}
+        "29": {"semifinals": 15, "final": 8},
+        "30": {"semifinals": 15, "final": 8},
+        "31": {"semifinals": 16, "final": 8},
+        "32": {"semifinals": 16, "final": 8},
+        "33": {"semifinals": 17, "final": 9},
+        "34": {"semifinals": 17, "final": 9},
+        "35": {"semifinals": 18, "final": 9},
+        "36": {"semifinals": 18, "final": 9}
       },
       "semifinals": {
-        "1": {"final": 1},
-        "2": {"final": 1}
+        "15": {"final": 8},
+        "16": {"final": 8},
+        "17": {"final": 9},
+        "18": {"final": 9}
       }
     }
   },
@@ -277,147 +361,291 @@
     ],
     "last32": [
       {
-        "match": 1,
+        "match": 113,
         "player1": "judd_trump",
         "player2": "tbd",
         "winner": null
       },
       {
-        "match": 2,
+        "match": 114,
         "player1": "ali_carter",
         "player2": "tbd",
         "winner": null
       },
       {
-        "match": 3,
+        "match": 115,
         "player1": "neil_robertson",
         "player2": "tbd",
         "winner": null
       },
       {
-        "match": 4,
+        "match": 116,
         "player1": "mark_selby",
         "player2": "tbd",
         "winner": null
       },
       {
-        "match": 5,
+        "match": 117,
         "player1": "john_higgins",
         "player2": "tbd",
         "winner": null
       },
       {
-        "match": 6,
+        "match": 118,
         "player1": "zhang_anda",
         "player2": "tbd",
         "winner": null
       },
       {
-        "match": 7,
+        "match": 119,
         "player1": "shaun_murphy",
         "player2": "tbd",
         "winner": null
       },
       {
-        "match": 8,
+        "match": 120,
         "player1": "mark_williams",
         "player2": "tbd",
         "winner": null
       },
       {
-        "match": 9,
+        "match": 121,
         "player1": "kyren_wilson",
         "player2": "tbd",
         "winner": null
       },
       {
-        "match": 10,
+        "match": 122,
         "player1": "si_jiahui",
         "player2": "tbd",
         "winner": null
       },
       {
-        "match": 11,
+        "match": 123,
         "player1": "mark_allen",
         "player2": "tbd",
         "winner": null
       },
       {
-        "match": 12,
+        "match": 124,
         "player1": "ronnie_osullivan",
         "player2": "tbd",
         "winner": null
       },
       {
-        "match": 13,
+        "match": 125,
         "player1": "ding_junhui",
         "player2": "tbd",
         "winner": null
       },
       {
-        "match": 14,
+        "match": 126,
         "player1": "barry_hawkins",
         "player2": "tbd",
         "winner": null
       },
       {
-        "match": 15,
+        "match": 127,
         "player1": "chris_wakelin",
         "player2": "tbd",
         "winner": null
       },
       {
-        "match": 16,
+        "match": 128,
         "player1": "zhao_xintong",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 129,
+        "player1": "luca_brecel",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 130,
+        "player1": "gary_wilson",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 131,
+        "player1": "tom_ford",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 132,
+        "player1": "stuart_bingham",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 133,
+        "player1": "yan_bingtao",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 134,
+        "player1": "anthony_mcgill",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 135,
+        "player1": "robert_milkins",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 136,
+        "player1": "jordan_brown",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 137,
+        "player1": "matthew_selt",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 138,
+        "player1": "graeme_dott",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 139,
+        "player1": "stephen_maguire",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 140,
+        "player1": "ryan_day",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 141,
+        "player1": "joe_perry",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 142,
+        "player1": "jack_lisowski",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 143,
+        "player1": "zhou_yuelong",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 144,
+        "player1": "david_gilbert",
         "player2": "tbd",
         "winner": null
       }
     ],
     "last16": [
       {
-        "match": 1,
+        "match": 57,
         "player1": "tbd",
         "player2": "tbd",
         "winner": null
       },
       {
-        "match": 2,
+        "match": 58,
         "player1": "tbd",
         "player2": "tbd",
         "winner": null
       },
       {
-        "match": 3,
+        "match": 59,
         "player1": "tbd",
         "player2": "tbd",
         "winner": null
       },
       {
-        "match": 4,
+        "match": 60,
         "player1": "tbd",
         "player2": "tbd",
         "winner": null
       },
       {
-        "match": 5,
+        "match": 61,
         "player1": "tbd",
         "player2": "tbd",
         "winner": null
       },
       {
-        "match": 6,
+        "match": 62,
         "player1": "tbd",
         "player2": "tbd",
         "winner": null
       },
       {
-        "match": 7,
+        "match": 63,
         "player1": "tbd",
         "player2": "tbd",
         "winner": null
       },
       {
-        "match": 8,
+        "match": 64,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 65,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 66,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 67,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 68,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 69,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 70,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 71,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 72,
         "player1": "tbd",
         "player2": "tbd",
         "winner": null
@@ -425,25 +653,49 @@
     ],
     "quarterfinals": [
       {
-        "match": 1,
+        "match": 29,
         "player1": "tbd",
         "player2": "tbd",
         "winner": null
       },
       {
-        "match": 2,
+        "match": 30,
         "player1": "tbd",
         "player2": "tbd",
         "winner": null
       },
       {
-        "match": 3,
+        "match": 31,
         "player1": "tbd",
         "player2": "tbd",
         "winner": null
       },
       {
-        "match": 4,
+        "match": 32,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 33,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 34,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 35,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 36,
         "player1": "tbd",
         "player2": "tbd",
         "winner": null
@@ -451,13 +703,25 @@
     ],
     "semifinals": [
       {
-        "match": 1,
+        "match": 15,
         "player1": "tbd",
         "player2": "tbd",
         "winner": null
       },
       {
-        "match": 2,
+        "match": 16,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 17,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 18,
         "player1": "tbd",
         "player2": "tbd",
         "winner": null
@@ -465,7 +729,13 @@
     ],
     "final": [
       {
-        "match": 1,
+        "match": 8,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 9,
         "player1": "tbd",
         "player2": "tbd",
         "winner": null

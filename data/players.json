@@ -7,71 +7,71 @@
     "seed": 1
   },
   {
-    "id": "zhao_xintong",
-    "name": "Zhao Xintong",
-    "status": "playing",
-    "points": 0,
-    "seed": 2
-  },
-  {
     "id": "kyren_wilson",
     "name": "Kyren Wilson",
     "status": "playing",
     "points": 0,
-    "seed": 3
+    "seed": 2
   },
   {
     "id": "mark_williams",
     "name": "Mark Williams",
     "status": "playing",
     "points": 0,
-    "seed": 4
+    "seed": 3
   },
   {
     "id": "john_higgins",
     "name": "John Higgins",
     "status": "playing",
     "points": 0,
-    "seed": 5
+    "seed": 4
   },
   {
     "id": "ronnie_osullivan",
     "name": "Ronnie O'Sullivan",
     "status": "playing",
     "points": 0,
-    "seed": 6
+    "seed": 5
   },
   {
     "id": "ding_junhui",
     "name": "Ding Junhui",
     "status": "playing",
     "points": 0,
-    "seed": 7
+    "seed": 6
   },
   {
     "id": "mark_selby",
     "name": "Mark Selby",
     "status": "playing",
     "points": 0,
-    "seed": 8
+    "seed": 7
   },
   {
     "id": "neil_robertson",
     "name": "Neil Robertson",
     "status": "playing",
     "points": 0,
-    "seed": 9
+    "seed": 8
   },
   {
     "id": "barry_hawkins",
     "name": "Barry Hawkins",
     "status": "playing",
     "points": 0,
-    "seed": 10
+    "seed": 9
   },
   {
     "id": "mark_allen",
     "name": "Mark Allen",
+    "status": "playing",
+    "points": 0,
+    "seed": 10
+  },
+  {
+    "id": "zhao_xintong",
+    "name": "Zhao Xintong",
     "status": "playing",
     "points": 0,
     "seed": 11
@@ -84,13 +84,6 @@
     "seed": 12
   },
   {
-    "id": "shaun_murphy",
-    "name": "Shaun Murphy",
-    "status": "playing",
-    "points": 0,
-    "seed": 13
-  },
-  {
     "id": "si_jiahui",
     "name": "Si Jiahui",
     "status": "playing",
@@ -98,295 +91,295 @@
     "seed": 14
   },
   {
+    "id": "shaun_murphy",
+    "name": "Shaun Murphy",
+    "status": "playing",
+    "points": 0,
+    "seed": 15
+  },
+  {
     "id": "chris_wakelin",
     "name": "Chris Wakelin",
     "status": "playing",
     "points": 0,
-    "seed": 15
+    "seed": 16
   },
   {
     "id": "ali_carter",
     "name": "Ali Carter",
     "status": "playing",
     "points": 0,
-    "seed": 16
-  },
-  {
-    "id": "luca_brecel",
-    "name": "Luca Brecel",
-    "status": "playing",
-    "points": 0,
     "seed": 17
-  },
-  {
-    "id": "gary_wilson",
-    "name": "Gary Wilson",
-    "status": "playing",
-    "points": 0,
-    "seed": 18
   },
   {
     "id": "tom_ford",
     "name": "Tom Ford",
     "status": "playing",
     "points": 0,
+    "seed": 18
+  },
+  {
+    "id": "gary_wilson",
+    "name": "Gary Wilson",
+    "status": "playing",
+    "points": 0,
     "seed": 19
-  },
-  {
-    "id": "stuart_bingham",
-    "name": "Stuart Bingham",
-    "status": "playing",
-    "points": 0,
-    "seed": 20
-  },
-  {
-    "id": "yan_bingtao",
-    "name": "Yan Bingtao",
-    "status": "playing",
-    "points": 0,
-    "seed": 21
-  },
-  {
-    "id": "anthony_mcgill",
-    "name": "Anthony McGill",
-    "status": "playing",
-    "points": 0,
-    "seed": 22
-  },
-  {
-    "id": "robert_milkins",
-    "name": "Robert Milkins",
-    "status": "playing",
-    "points": 0,
-    "seed": 23
-  },
-  {
-    "id": "jordan_brown",
-    "name": "Jordan Brown",
-    "status": "playing",
-    "points": 0,
-    "seed": 24
-  },
-  {
-    "id": "matthew_selt",
-    "name": "Matthew Selt",
-    "status": "playing",
-    "points": 0,
-    "seed": 25
-  },
-  {
-    "id": "graeme_dott",
-    "name": "Graeme Dott",
-    "status": "playing",
-    "points": 0,
-    "seed": 26
-  },
-  {
-    "id": "stephen_maguire",
-    "name": "Stephen Maguire",
-    "status": "playing",
-    "points": 0,
-    "seed": 27
-  },
-  {
-    "id": "ryan_day",
-    "name": "Ryan Day",
-    "status": "playing",
-    "points": 0,
-    "seed": 28
-  },
-  {
-    "id": "joe_perry",
-    "name": "Joe Perry",
-    "status": "playing",
-    "points": 0,
-    "seed": 29
-  },
-  {
-    "id": "jack_lisowski",
-    "name": "Jack Lisowski",
-    "status": "playing",
-    "points": 0,
-    "seed": 30
-  },
-  {
-    "id": "zhou_yuelong",
-    "name": "Zhou Yuelong",
-    "status": "playing",
-    "points": 0,
-    "seed": 31
-  },
-  {
-    "id": "david_gilbert",
-    "name": "David Gilbert",
-    "status": "playing",
-    "points": 0,
-    "seed": 32
-  },
-  {
-    "id": "xiao_guodong",
-    "name": "Xiao Guodong",
-    "status": "playing",
-    "points": 0,
-    "seed": 33
-  },
-  {
-    "id": "jimmy_robertson",
-    "name": "Jimmy Robertson",
-    "status": "playing",
-    "points": 0,
-    "seed": 34
-  },
-  {
-    "id": "ben_woollaston",
-    "name": "Ben Woollaston",
-    "status": "playing",
-    "points": 0,
-    "seed": 35
-  },
-  {
-    "id": "liang_wenbo",
-    "name": "Liang Wenbo",
-    "status": "playing",
-    "points": 0,
-    "seed": 36
-  },
-  {
-    "id": "lu_ning",
-    "name": "Lu Ning",
-    "status": "playing",
-    "points": 0,
-    "seed": 37
-  },
-  {
-    "id": "lu_haotian",
-    "name": "Lu Haotian",
-    "status": "playing",
-    "points": 0,
-    "seed": 38
-  },
-  {
-    "id": "tian_pengfei",
-    "name": "Tian Pengfei",
-    "status": "playing",
-    "points": 0,
-    "seed": 39
-  },
-  {
-    "id": "yuan_sijun",
-    "name": "Yuan Sijun",
-    "status": "playing",
-    "points": 0,
-    "seed": 40
-  },
-  {
-    "id": "fan_zhengyi",
-    "name": "Fan Zhengyi",
-    "status": "playing",
-    "points": 0,
-    "seed": 41
-  },
-  {
-    "id": "pang_junxu",
-    "name": "Pang Junxu",
-    "status": "playing",
-    "points": 0,
-    "seed": 42
   },
   {
     "id": "wu_yize",
     "name": "Wu Yize",
     "status": "playing",
     "points": 0,
+    "seed": 20
+  },
+  {
+    "id": "stuart_bingham",
+    "name": "Stuart Bingham",
+    "status": "playing",
+    "points": 0,
+    "seed": 21
+  },
+  {
+    "id": "jak_jones",
+    "name": "Jak Jones",
+    "status": "playing",
+    "points": 0,
+    "seed": 22
+  },
+  {
+    "id": "david_gilbert",
+    "name": "David Gilbert",
+    "status": "playing",
+    "points": 0,
+    "seed": 23
+  },
+  {
+    "id": "hossein_vafaei",
+    "name": "Hossein Vafaei",
+    "status": "playing",
+    "points": 0,
+    "seed": 24
+  },
+  {
+    "id": "stephen_maguire",
+    "name": "Stephen Maguire",
+    "status": "playing",
+    "points": 0,
+    "seed": 25
+  },
+  {
+    "id": "jack_lisowski",
+    "name": "Jack Lisowski",
+    "status": "playing",
+    "points": 0,
+    "seed": 26
+  },
+  {
+    "id": "pang_junxu",
+    "name": "Pang Junxu",
+    "status": "playing",
+    "points": 0,
+    "seed": 27
+  },
+  {
+    "id": "joe_oconnor",
+    "name": "Joe O'Connor",
+    "status": "playing",
+    "points": 0,
+    "seed": 28
+  },
+  {
+    "id": "elliot_slessor",
+    "name": "Elliot Slessor",
+    "status": "playing",
+    "points": 0,
+    "seed": 29
+  },
+  {
+    "id": "yuan_sijun",
+    "name": "Yuan Sijun",
+    "status": "playing",
+    "points": 0,
+    "seed": 30
+  },
+  {
+    "id": "lei_peifan",
+    "name": "Lei Peifan",
+    "status": "playing",
+    "points": 0,
+    "seed": 31
+  },
+  {
+    "id": "matthew_selt",
+    "name": "Matthew Selt",
+    "status": "playing",
+    "points": 0,
+    "seed": 32
+  },
+  {
+    "id": "zhou_yuelong",
+    "name": "Zhou Yuelong",
+    "status": "playing",
+    "points": 0,
+    "seed": 33
+  },
+  {
+    "id": "jackson_page",
+    "name": "Jackson Page",
+    "status": "playing",
+    "points": 0,
+    "seed": 34
+  },
+  {
+    "id": "jimmy_robertson",
+    "name": "Jimmy Robertson",
+    "status": "playing",
+    "points": 0,
+    "seed": 35
+  },
+  {
+    "id": "noppon_saengkham",
+    "name": "Noppon Saengkham",
+    "status": "playing",
+    "points": 0,
+    "seed": 36
+  },
+  {
+    "id": "ryan_day",
+    "name": "Ryan Day",
+    "status": "playing",
+    "points": 0,
+    "seed": 37
+  },
+  {
+    "id": "lyu_haotian",
+    "name": "Lyu Haotian",
+    "status": "playing",
+    "points": 0,
+    "seed": 38
+  },
+  {
+    "id": "luca_brecel",
+    "name": "Luca Brecel",
+    "status": "playing",
+    "points": 0,
+    "seed": 39
+  },
+  {
+    "id": "ricky_walden",
+    "name": "Ricky Walden",
+    "status": "playing",
+    "points": 0,
+    "seed": 40
+  },
+  {
+    "id": "xu_si",
+    "name": "Xu Si",
+    "status": "playing",
+    "points": 0,
+    "seed": 41
+  },
+  {
+    "id": "ben_woollaston",
+    "name": "Ben Woollaston",
+    "status": "playing",
+    "points": 0,
+    "seed": 42
+  },
+  {
+    "id": "martin_odonnell",
+    "name": "Martin O'Donnell",
+    "status": "playing",
+    "points": 0,
     "seed": 43
   },
   {
-    "id": "cao_yupeng",
-    "name": "Cao Yupeng",
+    "id": "daniel_wells",
+    "name": "Daniel Wells",
     "status": "playing",
     "points": 0,
     "seed": 44
   },
   {
-    "id": "liu_hongyu",
-    "name": "Liu Hongyu",
+    "id": "he_guoqiang",
+    "name": "He Guoqiang",
     "status": "playing",
     "points": 0,
     "seed": 45
   },
   {
-    "id": "he_guoqi",
-    "name": "He Guoqiang",
+    "id": "thepchaiya_unnooh",
+    "name": "Thepchaiya Un-Nooh",
     "status": "playing",
     "points": 0,
     "seed": 46
   },
   {
-    "id": "ma_hailong",
-    "name": "Ma Hailong",
+    "id": "robbie_williams",
+    "name": "Robbie Williams",
     "status": "playing",
     "points": 0,
     "seed": 47
   },
   {
-    "id": "deng_haihui",
-    "name": "Deng Haihui",
+    "id": "fan_zhengyi",
+    "name": "Fan Zhengyi",
     "status": "playing",
     "points": 0,
     "seed": 48
   },
   {
-    "id": "liu_song",
-    "name": "Liu Song",
+    "id": "aaron_hill",
+    "name": "Aaron Hill",
     "status": "playing",
     "points": 0,
     "seed": 49
   },
   {
-    "id": "zhang_jiankang",
-    "name": "Zhang Jiankang",
+    "id": "robert_milkins",
+    "name": "Robert Milkins",
     "status": "playing",
     "points": 0,
     "seed": 50
   },
   {
-    "id": "liu_hongyu",
-    "name": "Liu Hongyu",
+    "id": "jamie_jones",
+    "name": "Jamie Jones",
     "status": "playing",
     "points": 0,
     "seed": 51
   },
   {
-    "id": "he_guoqi",
-    "name": "He Guoqiang",
+    "id": "matthew_stevens",
+    "name": "Matthew Stevens",
     "status": "playing",
     "points": 0,
     "seed": 52
   },
   {
-    "id": "ma_hailong",
-    "name": "Ma Hailong",
+    "id": "mark_davis",
+    "name": "Mark Davis",
     "status": "playing",
     "points": 0,
     "seed": 53
   },
   {
-    "id": "deng_haihui",
-    "name": "Deng Haihui",
+    "id": "scott_donaldson",
+    "name": "Scott Donaldson",
     "status": "playing",
     "points": 0,
     "seed": 54
   },
   {
-    "id": "liu_song",
-    "name": "Liu Song",
+    "id": "jordan_brown",
+    "name": "Jordan Brown",
     "status": "playing",
     "points": 0,
     "seed": 55
   },
   {
-    "id": "zhang_jiankang",
-    "name": "Zhang Jiankang",
+    "id": "david_lilley",
+    "name": "David Lilley",
     "status": "playing",
     "points": 0,
     "seed": 56
@@ -399,122 +392,619 @@
     "seed": 57
   },
   {
-    "id": "he_guoqi",
-    "name": "He Guoqiang",
+    "id": "anthony_mcgill",
+    "name": "Anthony McGill",
     "status": "playing",
     "points": 0,
     "seed": 58
   },
   {
-    "id": "ma_hailong",
-    "name": "Ma Hailong",
+    "id": "long_zehuang",
+    "name": "Long Zehuang",
     "status": "playing",
     "points": 0,
     "seed": 59
   },
   {
-    "id": "deng_haihui",
-    "name": "Deng Haihui",
+    "id": "sanderson_lam",
+    "name": "Sanderson Lam",
     "status": "playing",
     "points": 0,
     "seed": 60
   },
   {
-    "id": "liu_song",
-    "name": "Liu Song",
-    "status": "playing",
-    "points": 0,
-    "seed": 61
-  },
-  {
-    "id": "zhang_jiankang",
-    "name": "Zhang Jiankang",
+    "id": "stan_moody",
+    "name": "Stan Moody",
     "status": "playing",
     "points": 0,
     "seed": 62
+  },
+  {
+    "id": "ishpreet_singh_chadha",
+    "name": "Ishpreet Singh Chadha",
+    "status": "playing",
+    "points": 0,
+    "seed": 63
+  },
+  {
+    "id": "zak_surety",
+    "name": "Zak Surety",
+    "status": "playing",
+    "points": 0,
+    "seed": 64
   },
   {
     "id": "michael_holt",
     "name": "Michael Holt",
     "status": "playing",
     "points": 0,
-    "seed": 63
+    "seed": 66
+  },
+  {
+    "id": "gong_chenzhi",
+    "name": "Gong Chenzhi",
+    "status": "playing",
+    "points": 0,
+    "seed": 67
+  },
+  {
+    "id": "ashley_hugill",
+    "name": "Ashley Hugill",
+    "status": "playing",
+    "points": 0,
+    "seed": 67
+  },
+  {
+    "id": "oliver_lines",
+    "name": "Oliver Lines",
+    "status": "playing",
+    "points": 0,
+    "seed": 68
   },
   {
     "id": "duane_jones",
     "name": "Duane Jones",
     "status": "playing",
     "points": 0,
-    "seed": 64
+    "seed": 69
   },
   {
-    "id": "steven_hallworth",
-    "name": "Steven Hallworth",
+    "id": "ben_mertens",
+    "name": "Ben Mertens",
+    "status": "playing",
+    "points": 0,
+    "seed": 70
+  },
+  {
+    "id": "sunny_akani",
+    "name": "Sunny Akani",
+    "status": "playing",
+    "points": 0,
+    "seed": 71
+  },
+  {
+    "id": "antoni_kowalski",
+    "name": "Antoni Kowalski",
+    "status": "playing",
+    "points": 0,
+    "seed": 72
+  },
+  {
+    "id": "wang_yuchen",
+    "name": "Wang Yuchen",
+    "status": "playing",
+    "points": 0,
+    "seed": 73
+  },
+  {
+    "id": "allan_taylor",
+    "name": "Allan Taylor",
+    "status": "playing",
+    "points": 0,
+    "seed": 74
+  },
+  {
+    "id": "amir_sarkhosh",
+    "name": "Amir Sarkhosh",
+    "status": "playing",
+    "points": 0,
+    "seed": 75
+  },
+  {
+    "id": "liam_davies",
+    "name": "Liam Davies",
+    "status": "playing",
+    "points": 0,
+    "seed": 76
+  },
+  {
+    "id": "artemijs_zizins",
+    "name": "Artemijs Zizins",
+    "status": "playing",
+    "points": 0,
+    "seed": 77
+  },
+  {
+    "id": "julien_leclercq",
+    "name": "Julien Leclercq",
+    "status": "playing",
+    "points": 0,
+    "seed": 78
+  },
+  {
+    "id": "bulcsu_revesz",
+    "name": "Bulcsu Revesz",
+    "status": "playing",
+    "points": 0,
+    "seed": 79
+  },
+  {
+    "id": "haydon_pinhey",
+    "name": "Haydon Pinhey",
+    "status": "playing",
+    "points": 0,
+    "seed": 80
+  },
+  {
+    "id": "cheung_ka_wai",
+    "name": "Cheung Ka Wai",
+    "status": "playing",
+    "points": 0,
+    "seed": 81
+  },
+  {
+    "id": "robbie_mcguigan",
+    "name": "Robbie McGuigan",
+    "status": "playing",
+    "points": 0,
+    "seed": 82
+  },
+  {
+    "id": "haris_tahir",
+    "name": "Haris Tahir",
+    "status": "playing",
+    "points": 0,
+    "seed": 83
+  },
+  {
+    "id": "chris_totten",
+    "name": "Chris Totten",
+    "status": "playing",
+    "points": 0,
+    "seed": 84
+  },
+  {
+    "id": "farakh_ajaib",
+    "name": "Farakh Ajaib",
+    "status": "playing",
+    "points": 0,
+    "seed": 85
+  },
+  {
+    "id": "mitchell_mann",
+    "name": "Mitchell Mann",
+    "status": "playing",
+    "points": 0,
+    "seed": 86
+  },
+  {
+    "id": "huang_jiahao",
+    "name": "Huang Jiahao",
+    "status": "playing",
+    "points": 0,
+    "seed": 87
+  },
+  {
+    "id": "ken_doherty",
+    "name": "Ken Doherty",
+    "status": "playing",
+    "points": 0,
+    "seed": 89
+  },
+  {
+    "id": "mink_nutcharut",
+    "name": "Mink Nutcharut",
+    "status": "playing",
+    "points": 0,
+    "seed": 90
+  },
+  {
+    "id": "kreishh_gurbaxani",
+    "name": "Kreishh Gurbaxani",
+    "status": "playing",
+    "points": 0,
+    "seed": 91
+  },
+  {
+    "id": "dylan_emery",
+    "name": "Dylan Emery",
+    "status": "playing",
+    "points": 0,
+    "seed": 92
+  },
+  {
+    "id": "sam_craigie",
+    "name": "Sam Craigie",
+    "status": "playing",
+    "points": 0,
+    "seed": 93
+  },
+  {
+    "id": "onyee_ng",
+    "name": "Onyee Ng",
+    "status": "playing",
+    "points": 0,
+    "seed": 94
+  },
+  {
+    "id": "liu_wenwei",
+    "name": "Liu Wenwei",
+    "status": "playing",
+    "points": 0,
+    "seed": 95
+  },
+  {
+    "id": "yao_pengcheng",
+    "name": "Yao Pengcheng",
+    "status": "playing",
+    "points": 0,
+    "seed": 96
+  },
+  {
+    "id": "jonas_luz",
+    "name": "Jonas Luz",
+    "status": "playing",
+    "points": 0,
+    "seed": 97
+  },
+  {
+    "id": "hatem_yassen",
+    "name": "Hatem Yassen",
+    "status": "playing",
+    "points": 0,
+    "seed": 98
+  },
+  {
+    "id": "mohamed_shehab",
+    "name": "Mohamed Shehab",
     "status": "playing",
     "points": 0,
     "seed": 100
+  },
+  {
+    "id": "liam_highfield",
+    "name": "Liam Highfield",
+    "status": "playing",
+    "points": 0,
+    "seed": 101
+  },
+  {
+    "id": "jiang_jun",
+    "name": "Jiang Jun",
+    "status": "playing",
+    "points": 0,
+    "seed": 102
+  },
+  {
+    "id": "ian_burns",
+    "name": "Ian Burns",
+    "status": "playing",
+    "points": 0,
+    "seed": 102
+  },
+  {
+    "id": "chang_bingyu",
+    "name": "Chang Bingyu",
+    "status": "playing",
+    "points": 0,
+    "seed": 104
+  },
+  {
+    "id": "oliver_brown",
+    "name": "Oliver Brown",
+    "status": "playing",
+    "points": 0,
+    "seed": 104
+  },
+  {
+    "id": "liam_pullen",
+    "name": "Liam Pullen",
+    "status": "playing",
+    "points": 0,
+    "seed": 106
+  },
+  {
+    "id": "gao_yang",
+    "name": "Gao Yang",
+    "status": "playing",
+    "points": 0,
+    "seed": 106
+  },
+  {
+    "id": "florian_nuessle",
+    "name": "Florian Nuessle",
+    "status": "playing",
+    "points": 0,
+    "seed": 108
+  },
+  {
+    "id": "ross_muir",
+    "name": "Ross Muir",
+    "status": "playing",
+    "points": 0,
+    "seed": 108
+  },
+  {
+    "id": "louis_heathcote",
+    "name": "Louis Heathcote",
+    "status": "playing",
+    "points": 0,
+    "seed": 108
+  },
+  {
+    "id": "lan_yuhao",
+    "name": "Lan Yuhao",
+    "status": "playing",
+    "points": 0,
+    "seed": 111
   },
   {
     "id": "liam_graham",
     "name": "Liam Graham",
     "status": "playing",
     "points": 0,
-    "seed": 106
+    "seed": 111
   },
   {
-    "id": "amateur_player_1",
-    "name": "Amateur Player 1",
+    "id": "leone_crowley",
+    "name": "Leone Crowley",
     "status": "playing",
     "points": 0,
-    "seed": "a"
+    "seed": 113
   },
   {
-    "id": "amateur_player_2",
-    "name": "Amateur Player 2",
+    "id": "chatchapong_nasa",
+    "name": "Chatchapong Nasa",
     "status": "playing",
     "points": 0,
-    "seed": "a"
+    "seed": 113
   },
   {
-    "id": "amateur_player_3",
-    "name": "Amateur Player 3",
+    "id": "reanne_evans",
+    "name": "Reanne Evans",
     "status": "playing",
     "points": 0,
-    "seed": "a"
+    "seed": 113
   },
   {
-    "id": "amateur_player_4",
-    "name": "Amateur Player 4",
+    "id": "zhao_hanyang",
+    "name": "Zhao Hanyang",
     "status": "playing",
     "points": 0,
-    "seed": "a"
+    "seed": 113
   },
   {
-    "id": "amateur_player_5",
-    "name": "Amateur Player 5",
+    "id": "mateusz_baranowski",
+    "name": "Mateusz Baranowski",
     "status": "playing",
     "points": 0,
-    "seed": "a"
+    "seed": 113
   },
   {
-    "id": "amateur_player_6",
-    "name": "Amateur Player 6",
+    "id": "michal_szubarczyk",
+    "name": "Michal Szubarczyk",
     "status": "playing",
     "points": 0,
-    "seed": "a"
+    "seed": 113
   },
   {
-    "id": "amateur_player_7",
-    "name": "Amateur Player 7",
+    "id": "xu_yichen",
+    "name": "Xu Yichen",
     "status": "playing",
     "points": 0,
-    "seed": "a"
+    "seed": 113
   },
   {
-    "id": "amateur_player_8",
-    "name": "Amateur Player 8",
+    "id": "sahil_nayyar",
+    "name": "Sahil Nayyar",
     "status": "playing",
     "points": 0,
-    "seed": "a"
+    "seed": 113
+  },
+  {
+    "id": "iulian_boiko",
+    "name": "Iulian Boiko",
+    "status": "playing",
+    "points": 0,
+    "seed": 113
+  },
+  {
+    "id": "david_grace",
+    "name": "David Grace",
+    "status": "playing",
+    "points": 0,
+    "seed": 113
+  },
+  {
+    "id": "marco_fu",
+    "name": "Marco Fu",
+    "status": "playing",
+    "points": 0,
+    "seed": 113
+  },
+  {
+    "id": "jimmy_white",
+    "name": "Jimmy White",
+    "status": "playing",
+    "points": 0,
+    "seed": 113
+  },
+  {
+    "id": "connor_benzey",
+    "name": "Connor Benzey",
+    "status": "playing",
+    "points": 0,
+    "seed": 113
+  },
+  {
+    "id": "alexander_ursenbacher",
+    "name": "Alexander Ursenbacher",
+    "status": "playing",
+    "points": 0,
+    "seed": 113
+  },
+  {
+    "id": "fergal_quinn",
+    "name": "Fergal Quinn",
+    "status": "playing",
+    "points": 0,
+    "seed": 113
+  },
+  {
+    "id": "steven_hallworth",
+    "name": "Steven Hallworth",
+    "status": "playing",
+    "points": 0,
+    "seed": 113
+  },
+  {
+    "id": "ryan_davies",
+    "name": "Ryan Davies",
+    "status": "playing",
+    "points": 0,
+    "seed": 142
+  },
+  {
+    "id": "ahmed_aseeri",
+    "name": "Ahmed Aseeri",
+    "status": "playing",
+    "points": 0,
+    "seed": 0
+  },
+  {
+    "id": "ziyad_alqabbani",
+    "name": "Ziyad Alqabbani",
+    "status": "playing",
+    "points": 0,
+    "seed": 0
+  },
+  {
+    "id": "fahad_alghamdi",
+    "name": "Fahad Alghamdi",
+    "status": "playing",
+    "points": 0,
+    "seed": 0
+  },
+  {
+    "id": "musab_sayegh",
+    "name": "Musab Sayegh",
+    "status": "playing",
+    "points": 0,
+    "seed": 0
+  },
+  {
+    "id": "musaad_almisfir",
+    "name": "Musaad Almisfir",
+    "status": "playing",
+    "points": 0,
+    "seed": 0
+  },
+  {
+    "id": "abdulraouf_saigh",
+    "name": "Abdulraouf Saigh",
+    "status": "playing",
+    "points": 0,
+    "seed": 0
+  },
+  {
+    "id": "habib_sabah",
+    "name": "Habib Sabah",
+    "status": "playing",
+    "points": 0,
+    "seed": 0
+  },
+  {
+    "id": "wildcard_16",
+    "name": "wildcard 16",
+    "status": "playing",
+    "points": 0,
+    "seed": 0
+  },
+  {
+    "id": "mohammed_al_joker",
+    "name": "Mohammed Al Joker",
+    "status": "playing",
+    "points": 0,
+    "seed": 0
+  },
+  {
+    "id": "hesham_shawky",
+    "name": "Hesham Shawky",
+    "status": "playing",
+    "points": 0,
+    "seed": 0
+  },
+  {
+    "id": "ayman_alamri",
+    "name": "Ayman Alamri",
+    "status": "playing",
+    "points": 0,
+    "seed": 0
+  },
+  {
+    "id": "adeel_aqdus",
+    "name": "Adeel Aqdus",
+    "status": "playing",
+    "points": 0,
+    "seed": 0
+  },
+  {
+    "id": "abdullah_alotayyani",
+    "name": "Abdullah Alotayyani",
+    "status": "playing",
+    "points": 0,
+    "seed": 0
+  },
+  {
+    "id": "patrick_whelan",
+    "name": "Patrick Whelan",
+    "status": "playing",
+    "points": 0,
+    "seed": 0
+  },
+  {
+    "id": "umut_dikme",
+    "name": "Umut Dikme",
+    "status": "playing",
+    "points": 0,
+    "seed": 0
+  },
+  {
+    "id": "mahmoud_el_hareedy",
+    "name": "Mahmoud El Hareedy",
+    "status": "playing",
+    "points": 0,
+    "seed": 0
+  },
+  {
+    "id": "saud_albaker",
+    "name": "Saud Albaker",
+    "status": "playing",
+    "points": 0,
+    "seed": 0
+  },
+  {
+    "id": "omar_alajlani",
+    "name": "Omar Alajlani",
+    "status": "playing",
+    "points": 0,
+    "seed": 0
+  },
+  {
+    "id": "asif_mukhtar",
+    "name": "Asif Mukhtar",
+    "status": "playing",
+    "points": 0,
+    "seed": 0
   }
-] 
+]

@@ -24,19 +24,21 @@ class SnookerLeaderboard {
 
     async loadData() {
         try {
-            // Load participants data
-            const participantsResponse = await fetch('data/participants.json');
-            if (!participantsResponse.ok) {
-                throw new Error(`Failed to load participants: ${participantsResponse.status}`);
-            }
-            this.participants = await participantsResponse.json();
+            // Load participants data from Google Apps Script
+            this.participants = await ParticipantsLoader.loadParticipants();
 
-            // Load players data
+            // Temporarily disable WST fetcher to test local data
+            let dataSource = 'Static';
+            console.log('Loading static player data...');
             const playersResponse = await fetch('data/players.json');
             if (!playersResponse.ok) {
                 throw new Error(`Failed to load players: ${playersResponse.status}`);
             }
             this.players = await playersResponse.json();
+            console.log('Loaded static player data');
+
+            // Update data source indicator
+            this.updateDataSource(dataSource);
 
         } catch (error) {
             console.error('Error loading data:', error);
@@ -203,6 +205,24 @@ class SnookerLeaderboard {
         }
     }
 
+    updateDataSource(source) {
+        const dataSourceElement = document.getElementById('dataSource');
+        if (dataSourceElement) {
+            dataSourceElement.textContent = source;
+            
+            // Add visual styling based on data source
+            const dataSourceContainer = dataSourceElement.closest('.data-source');
+            if (dataSourceContainer) {
+                dataSourceContainer.classList.remove('live', 'static');
+                if (source.includes('Live')) {
+                    dataSourceContainer.classList.add('live');
+                } else {
+                    dataSourceContainer.classList.add('static');
+                }
+            }
+        }
+    }
+
     showError(message) {
         const tbody = document.getElementById('leaderboardBody');
         if (tbody) {
@@ -235,6 +255,27 @@ class SnookerLeaderboard {
 // Initialize the leaderboard when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     window.snookerLeaderboard = new SnookerLeaderboard();
+    
+    // Add refresh button functionality
+    const refreshBtn = document.getElementById('refreshData');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', async () => {
+            refreshBtn.disabled = true;
+            refreshBtn.textContent = '🔄 Refreshing...';
+            
+            try {
+                await window.snookerLeaderboard.refresh();
+                if (window.tournamentBracket) {
+                    await window.tournamentBracket.refresh();
+                }
+            } catch (error) {
+                console.error('Error refreshing data:', error);
+            } finally {
+                refreshBtn.disabled = false;
+                refreshBtn.textContent = '🔄 Refresh';
+            }
+        });
+    }
 });
 
 // Add refresh functionality (optional - can be called manually)

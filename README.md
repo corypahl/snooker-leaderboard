@@ -1,6 +1,18 @@
 # Snooker Draft Contest Leaderboard
 
-A live leaderboard for a fantasy football draft contest that uses the 2025 Saudi Arabia Snooker Masters tournament as the scoring mechanism.
+A live leaderboard for a fantasy football draft contest that uses the 2025 Saudi Arabia Snooker Masters tournament as the scoring mechanism with **live data integration** from WST.tv.
+
+## 🚀 New Features
+
+- **Live Tournament Data**: Automatically fetches real-time tournament information from the official WST.tv website
+- **Automatic Updates**: Data refreshes automatically every 5 minutes with intelligent caching
+- **Manual Refresh**: Click the refresh button to get the latest data immediately
+- **Fallback System**: Gracefully falls back to static data if live data is unavailable
+- **Visual Indicators**: Shows data source (Live vs Static) with color-coded status
+- **Smart Caching**: Reduces server load with 5-minute cache intervals
+- **Relevant Matches Section**: New section displays matches involving players picked by participants
+- **Match Filtering**: Automatically filters tournament matches to show only those with picked players
+- **Participant Tracking**: Shows which participants picked each player in relevant matches
 
 ## 🏆 Overview
 
@@ -20,11 +32,15 @@ snooker-leaderboard/
 ├── index.html              # Main HTML page
 ├── style.css               # Styling and responsive design
 ├── leaderboard.js          # Leaderboard logic and data processing
+├── participants-loader.js  # Google Apps Script participants data loader
 ├── bracket.js              # Tournament bracket component
+├── wst-fetcher.js          # WST.tv live data integration
+├── relevant-matches.js     # Relevant matches filtering and display
+├── test-wst.html           # Test page for WST fetcher
+├── test-relevant-matches.html # Test page for relevant matches
 ├── data/
-│   ├── participants.json   # Participant names and picks
-│   ├── players.json        # Player data with seeding
-│   └── bracket.json        # Tournament structure and draw
+│   ├── players.json        # Player data with seeding (fallback)
+│   └── bracket.json        # Tournament structure and draw (fallback)
 ├── .github/workflows/
 │   └── deploy.yml          # GitHub Pages deployment workflow
 └── README.md               # This file
@@ -76,10 +92,25 @@ npx serve .
 
 ## 📊 Features
 
+### Live Data Integration
+- **Google Apps Script Integration**: Automatically fetches participant data from Google Apps Script endpoint
+- **WST.tv Integration**: Automatically fetches live tournament data from the official World Snooker Tour website
+- **Smart Caching**: 5-minute cache intervals to reduce server load while keeping data fresh
+- **Fallback System**: Seamlessly falls back to static data if live data is unavailable
+- **Data Source Indicator**: Visual indicator showing whether data is live or static
+- **Manual Refresh**: One-click refresh button for immediate updates
+
 ### Leaderboard
 - Real-time score calculation
 - Player status indicators (🎱 playing, ❌ eliminated)
 - Max Points calculation based on bracket structure
+
+### Relevant Matches
+- **Smart Filtering**: Automatically shows only matches involving picked players
+- **Participant Tracking**: Displays which participants picked each player
+- **Match Status**: Shows live status, scheduled, or completed matches
+- **Round Information**: Displays match round and number
+- **Responsive Design**: Works seamlessly on desktop and mobile devices
 - Tie handling and proper ranking
 - Responsive design for mobile devices
 
@@ -99,9 +130,9 @@ npx serve .
 ## 🛠️ Customization
 
 ### Adding Participants
-Edit `data/participants.json`:
-```json
-{
+Participants data is now loaded live from Google Apps Script. The data is automatically fetched from the Google Apps Script endpoint and transformed to match the local format.
+
+To update participant picks, modify the Google Apps Script source data. The application will automatically reflect changes when refreshed.
   "id": 13,
   "name": "New Participant",
   "picks": ["player_id_1", "player_id_2", "player_id_3"]
