@@ -1,4 +1,7 @@
 // Leaderboard functionality for Snooker Draft Order Contest
+// Configuration - Set this to true to show player picks, false to hide them
+const SHOW_PLAYER_PICKS = false;
+
 class SnookerLeaderboard {
     constructor() {
         this.participants = [];
@@ -44,11 +47,21 @@ class SnookerLeaderboard {
     calculateLeaderboard() {
         this.leaderboardData = this.participants.map(participant => {
             const picks = participant.picks.map(pickId => {
+                // Handle null picks
+                if (pickId === null || pickId === undefined) {
+                    return null;
+                }
                 const player = this.players.find(p => p.id === pickId);
                 return player || { name: 'Unknown Player', points: 0, status: 'eliminated' };
             });
 
-            const totalPoints = picks.reduce((sum, pick) => sum + (pick.points || 0), 0);
+            const totalPoints = picks.reduce((sum, pick) => {
+                // Handle null picks in points calculation
+                if (!pick || pick === null) {
+                    return sum;
+                }
+                return sum + (pick.points || 0);
+            }, 0);
             
             // Use bracket-based max points calculation if available
             let maxPoints;
@@ -67,8 +80,8 @@ class SnookerLeaderboard {
             };
         });
 
-        // Sort by total points descending
-        this.leaderboardData.sort((a, b) => b.totalPoints - a.totalPoints);
+        // Sort by max points descending
+        this.leaderboardData.sort((a, b) => b.maxPoints - a.maxPoints);
     }
 
     // Fallback simple max points calculation
@@ -77,6 +90,11 @@ class SnookerLeaderboard {
         let playersStillIn = 0;
         
         picks.forEach(pick => {
+            // Handle null picks
+            if (!pick || pick === null) {
+                return; // Skip null picks
+            }
+            
             if (pick.status === 'playing') {
                 playersStillIn++;
             } else {
@@ -127,8 +145,13 @@ class SnookerLeaderboard {
     }
 
     renderPlayerPick(player) {
-        if (!player) {
-            return '<span class="player-name">No pick</span>';
+        // Handle null/undefined picks
+        if (!player || player === null) {
+            return '<span class="no-pick">No Pick</span>';
+        }
+
+        if (!SHOW_PLAYER_PICKS) {
+            return '<span class="pick-hidden">👁️ Hidden</span>';
         }
 
         const statusIcon = this.getStatusIcon(player.status);
@@ -154,16 +177,16 @@ class SnookerLeaderboard {
     }
 
     getRank(index) {
-        // Handle ties - same rank for same points
+        // Handle ties - same rank for same max points
         if (index === 0) return 1;
         
-        const currentPoints = this.leaderboardData[index].totalPoints;
-        const previousPoints = this.leaderboardData[index - 1].totalPoints;
+        const currentMaxPoints = this.leaderboardData[index].maxPoints;
+        const previousMaxPoints = this.leaderboardData[index - 1].maxPoints;
         
-        if (currentPoints === previousPoints) {
-            // Find the first occurrence of this score
+        if (currentMaxPoints === previousMaxPoints) {
+            // Find the first occurrence of this max score
             for (let i = 0; i < index; i++) {
-                if (this.leaderboardData[i].totalPoints === currentPoints) {
+                if (this.leaderboardData[i].maxPoints === currentMaxPoints) {
                     return i + 1;
                 }
             }
@@ -205,6 +228,8 @@ class SnookerLeaderboard {
             this.showError('Failed to refresh data');
         }
     }
+
+
 }
 
 // Initialize the leaderboard when the page loads

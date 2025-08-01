@@ -52,6 +52,30 @@ header h1 {
     font-style: italic;
 }
 
+.header-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Hidden picks styling */
+.pick-hidden {
+    color: #888;
+    font-style: italic;
+    user-select: none;
+}
+
+/* No pick styling */
+.no-pick {
+    color: #666;
+    font-style: italic;
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
 /* Main content */
 main {
     max-width: 1200px;
@@ -245,6 +269,11 @@ footer {
 
 /* Responsive design */
 @media (max-width: 768px) {
+    .header-controls {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
     header h1 {
         font-size: 2rem;
     }

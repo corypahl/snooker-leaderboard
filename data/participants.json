@@ -1,18 +1,18 @@
 [
   {
     "id": 1,
-    "name": "Allen*",
-    "picks": ["mark_selby", "gary_wilson", "jordan_brown"]
+    "name": "Allen",
+    "picks": [null, null, null]
   },
   {
     "id": 2,
-    "name": "Andrew*",
-    "picks": ["judd_trump", "barry_hawkins", "zhao_xintong"]
+    "name": "Andrew",
+    "picks": [null, null, null]
   },
   {
     "id": 3,
-    "name": "Brent*",
-    "picks": ["mark_selby", "ding_junhui", "gary_wilson"]
+    "name": "Brent",
+    "picks": [null, null, null]
   },
   {
     "id": 4,
@@ -21,42 +21,42 @@
   },
   {
     "id": 5,
-    "name": "Danny*",
-    "picks": ["ronnie_osullivan", "stuart_bingham", "luca_brecel"]
+    "name": "Danny",
+    "picks": ["judd_trump", "kyren_wilson", "ding_junhui"]
   },
   {
     "id": 6,
-    "name": "Eric*",
-    "picks": ["neil_robertson", "mark_williams", "anthony_mcgill"]
+    "name": "Eric",
+    "picks": [null, null, null]
   },
   {
     "id": 7,
-    "name": "Jon*",
-    "picks": ["kyren_wilson", "yan_bingtao", "robert_milkins"]
+    "name": "Jon",
+    "picks": [null, null, null]
   },
   {
     "id": 8,
-    "name": "Jordan*",
-    "picks": ["ronnie_osullivan", "luca_brecel", "ali_carter"]
+    "name": "Jordan",
+    "picks": [null, null, null]
   },
   {
     "id": 9,
-    "name": "Michael*",
-    "picks": ["judd_trump", "zhao_xintong", "ryan_day"]
+    "name": "Michael",
+    "picks": [null, null, null]
   },
   {
     "id": 10,
-    "name": "Nick*",
-    "picks": ["john_higgins", "tom_ford", "graeme_dott"]
+    "name": "Nick",
+    "picks": [null, null, null]
   },
   {
     "id": 11,
-    "name": "Randy*",
-    "picks": ["neil_robertson", "anthony_mcgill", "matthew_selt"]
+    "name": "Randy",
+    "picks": [null, null, null]
   },
   {
     "id": 12,
-    "name": "Robby*",
-    "picks": ["john_higgins", "stephen_maguire", "tom_ford"]
+    "name": "Robby",
+    "picks": [null, null, null]
   }
 ] 

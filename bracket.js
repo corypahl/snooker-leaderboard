@@ -49,6 +49,11 @@ class TournamentBracket {
 
         // First pass: collect players still in and add earned points
         picks.forEach(pick => {
+            // Handle null picks
+            if (!pick || pick === null) {
+                return; // Skip null picks
+            }
+            
             if (pick.status === 'playing') {
                 playersStillIn.push(pick);
             } else {
