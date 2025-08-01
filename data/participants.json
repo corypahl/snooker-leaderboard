@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "name": "Allen*",
+    "picks": ["mark_selby", "gary_wilson", "jordan_brown"]
+  },
+  {
+    "id": 2,
+    "name": "Andrew*",
+    "picks": ["judd_trump", "barry_hawkins", "zhao_xintong"]
+  },
+  {
+    "id": 3,
+    "name": "Brent*",
+    "picks": ["mark_selby", "ding_junhui", "gary_wilson"]
+  },
+  {
+    "id": 4,
+    "name": "Cory",
+    "picks": ["judd_trump", "zhao_xintong", "ronnie_osullivan"]
+  },
+  {
+    "id": 5,
+    "name": "Danny*",
+    "picks": ["ronnie_osullivan", "stuart_bingham", "luca_brecel"]
+  },
+  {
+    "id": 6,
+    "name": "Eric*",
+    "picks": ["neil_robertson", "mark_williams", "anthony_mcgill"]
+  },
+  {
+    "id": 7,
+    "name": "Jon*",
+    "picks": ["kyren_wilson", "yan_bingtao", "robert_milkins"]
+  },
+  {
+    "id": 8,
+    "name": "Jordan*",
+    "picks": ["ronnie_osullivan", "luca_brecel", "ali_carter"]
+  },
+  {
+    "id": 9,
+    "name": "Michael*",
+    "picks": ["judd_trump", "zhao_xintong", "ryan_day"]
+  },
+  {
+    "id": 10,
+    "name": "Nick*",
+    "picks": ["john_higgins", "tom_ford", "graeme_dott"]
+  },
+  {
+    "id": 11,
+    "name": "Randy*",
+    "picks": ["neil_robertson", "anthony_mcgill", "matthew_selt"]
+  },
+  {
+    "id": 12,
+    "name": "Robby*",
+    "picks": ["john_higgins", "stephen_maguire", "tom_ford"]
+  }
+] 

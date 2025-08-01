@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snooker Draft Order Contest Leaderboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>2025 Saudi Arabia Snooker Masters</h1>
+        <div class="last-updated">
+            Last updated: <span id="lastUpdated">Loading...</span>
+        </div>
+    </header>
+
+    <main>
+        <section class="leaderboard-section">
+            <h2>Leaderboard</h2>
+            <div class="table-container">
+                <table id="leaderboardTable">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Participant</th>
+                            <th>Pick 1</th>
+                            <th>Pick 2</th>
+                            <th>Pick 3</th>
+                            <th>Total Points</th>
+                            <th>Max Points</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboardBody">
+                        <tr>
+                            <td colspan="7" class="loading">Loading leaderboard...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="how-it-works">
+            <h2>How It Works</h2>
+            <div class="scoring-grid">
+                <div class="scoring-item">
+                    <span class="points">14</span>
+                    <span class="description">Winner</span>
+                </div>
+                <div class="scoring-item">
+                    <span class="points">10</span>
+                    <span class="description">Finalist</span>
+                </div>
+                <div class="scoring-item">
+                    <span class="points">6</span>
+                    <span class="description">Semi-finalist</span>
+                </div>
+                <div class="scoring-item">
+                    <span class="points">4</span>
+                    <span class="description">Quarterfinalist</span>
+                </div>
+                <div class="scoring-item">
+                    <span class="points">2</span>
+                    <span class="description">Round of 16</span>
+                </div>
+            </div>
+            <p>
+                Each participant selected 3 snooker players before the tournament began. 
+                Points are awarded based on how far each player advances in the 2025 Saudi Arabia Snooker Masters.
+                The participant with the highest total score wins the contest and gets first pick in the fantasy football draft!
+            </p>
+            <div class="status-legend">
+                <h3>Player Status</h3>
+                <div class="legend-items">
+                    <div class="legend-item">
+                        <span class="status-icon">🎱</span>
+                        <span>Still playing</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="status-icon">❌</span>
+                        <span>Eliminated (points shown)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="tournament-bracket">
+            <h2>Tournament Bracket</h2>
+            <div id="bracketContainer" class="bracket-container">
+                <div class="loading">Loading tournament information...</div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Snooker Draft Order Contest</p>
+    </footer>
+
+    <script src="leaderboard.js"></script>
+    <script src="bracket.js"></script>
+</body>
+</html> 

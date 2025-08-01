@@ -1,0 +1,475 @@
+{
+  "tournament": {
+    "name": "2025 Saudi Arabia Snooker Masters",
+    "dates": "8-16 August 2025",
+    "venue": "Green Halls, Jeddah",
+    "totalPlayers": 144,
+    "seededPlayers": 16
+  },
+  "rounds": {
+    "round1": {
+      "name": "Round 1",
+      "frames": "Best of 7",
+      "players": 128,
+      "matches": 64,
+      "dates": "Aug 8-9"
+    },
+    "round2": {
+      "name": "Round 2", 
+      "frames": "Best of 7",
+      "players": 96,
+      "matches": 48,
+      "dates": "Aug 10"
+    },
+    "round3": {
+      "name": "Round 3",
+      "frames": "Best of 7", 
+      "players": 64,
+      "matches": 32,
+      "dates": "Aug 11"
+    },
+    "round4": {
+      "name": "Round 4",
+      "frames": "Best of 9",
+      "players": 48,
+      "matches": 24,
+      "dates": "Aug 12"
+    },
+    "round5": {
+      "name": "Last 32",
+      "frames": "Best of 9",
+      "players": 32,
+      "matches": 16,
+      "dates": "Aug 13"
+    },
+    "round6": {
+      "name": "Last 16",
+      "frames": "Best of 11",
+      "players": 16,
+      "matches": 8,
+      "dates": "Aug 14"
+    },
+    "quarterfinals": {
+      "name": "Quarter-finals",
+      "frames": "Best of 11",
+      "players": 8,
+      "matches": 4,
+      "dates": "Aug 15"
+    },
+    "semifinals": {
+      "name": "Semi-finals",
+      "frames": "Best of 11",
+      "players": 4,
+      "matches": 2,
+      "dates": "Aug 16"
+    },
+    "final": {
+      "name": "Final",
+      "frames": "Best of 19",
+      "players": 2,
+      "matches": 1,
+      "dates": "Aug 16"
+    }
+  },
+  "seeding": {
+    "top16": [
+      "judd_trump",
+      "zhao_xintong", 
+      "kyren_wilson",
+      "mark_williams",
+      "john_higgins",
+      "ronnie_osullivan",
+      "ding_junhui",
+      "mark_selby",
+      "neil_robertson",
+      "barry_hawkins",
+      "mark_allen",
+      "zhang_anda",
+      "shaun_murphy",
+      "si_jiahui",
+      "chris_wakelin",
+      "ali_carter"
+    ],
+    "seeded17to48": [
+      "luca_brecel",
+      "gary_wilson",
+      "tom_ford",
+      "stuart_bingham",
+      "yan_bingtao",
+      "anthony_mcgill",
+      "robert_milkins",
+      "jordan_brown",
+      "matthew_selt",
+      "graeme_dott",
+      "stephen_maguire",
+      "ryan_day",
+      "joe_perry",
+      "jack_lisowski",
+      "zhou_yuelong",
+      "david_gilbert",
+      "xiao_guodong",
+      "jimmy_robertson",
+      "ben_woollaston",
+      "liang_wenbo",
+      "lu_ning",
+      "lu_haotian",
+      "tian_pengfei",
+      "yuan_sijun",
+      "fan_zhengyi",
+      "pang_junxu",
+      "wu_yize",
+      "cao_yupeng",
+      "liu_hongyu",
+      "he_guoqi",
+      "ma_hailong",
+      "deng_haihui"
+    ],
+    "seeded49to80": [
+      "liu_song",
+      "zhang_jiankang",
+      "michael_holt",
+      "duane_jones",
+      "steven_hallworth",
+      "liam_graham"
+    ]
+  },
+  "points": {
+    "winner": 14,
+    "finalist": 10,
+    "semifinalist": 6,
+    "quarterfinalist": 4,
+    "last16": 2,
+    "last32": 0,
+    "eliminated_early": 0
+  },
+  "bracketStructure": {
+    "quadrants": {
+      "topLeft": {
+        "name": "Top Left Quadrant",
+        "matches": [1, 2, 3, 4, 5, 6, 7, 8],
+        "players": ["judd_trump", "ali_carter", "neil_robertson", "mark_selby", "john_higgins", "zhang_anda", "shaun_murphy", "mark_williams"]
+      },
+      "topRight": {
+        "name": "Top Right Quadrant", 
+        "matches": [9, 10, 11, 12, 13, 14, 15, 16],
+        "players": ["kyren_wilson", "si_jiahui", "mark_allen", "ronnie_osullivan", "ding_junhui", "barry_hawkins", "chris_wakelin", "zhao_xintong"]
+      }
+    },
+    "sections": {
+      "section1": {
+        "name": "Section 1 (Matches 1-4)",
+        "matches": [1, 2, 3, 4],
+        "players": ["judd_trump", "ali_carter", "neil_robertson", "mark_selby"],
+        "path": {
+          "last16": [1, 2],
+          "quarterfinals": [1],
+          "semifinals": [1],
+          "final": [1]
+        }
+      },
+      "section2": {
+        "name": "Section 2 (Matches 5-8)", 
+        "matches": [5, 6, 7, 8],
+        "players": ["john_higgins", "zhang_anda", "shaun_murphy", "mark_williams"],
+        "path": {
+          "last16": [3, 4],
+          "quarterfinals": [2],
+          "semifinals": [1],
+          "final": [1]
+        }
+      },
+      "section3": {
+        "name": "Section 3 (Matches 9-12)",
+        "matches": [9, 10, 11, 12], 
+        "players": ["kyren_wilson", "si_jiahui", "mark_allen", "ronnie_osullivan"],
+        "path": {
+          "last16": [5, 6],
+          "quarterfinals": [3],
+          "semifinals": [2],
+          "final": [1]
+        }
+      },
+      "section4": {
+        "name": "Section 4 (Matches 13-16)",
+        "matches": [13, 14, 15, 16],
+        "players": ["ding_junhui", "barry_hawkins", "chris_wakelin", "zhao_xintong"],
+        "path": {
+          "last16": [7, 8],
+          "quarterfinals": [4],
+          "semifinals": [2],
+          "final": [1]
+        }
+      }
+    },
+    "matchProgression": {
+      "last32": {
+        "1": {"last16": 1, "quarterfinals": 1, "semifinals": 1, "final": 1},
+        "2": {"last16": 1, "quarterfinals": 1, "semifinals": 1, "final": 1},
+        "3": {"last16": 2, "quarterfinals": 1, "semifinals": 1, "final": 1},
+        "4": {"last16": 2, "quarterfinals": 1, "semifinals": 1, "final": 1},
+        "5": {"last16": 3, "quarterfinals": 2, "semifinals": 1, "final": 1},
+        "6": {"last16": 3, "quarterfinals": 2, "semifinals": 1, "final": 1},
+        "7": {"last16": 4, "quarterfinals": 2, "semifinals": 1, "final": 1},
+        "8": {"last16": 4, "quarterfinals": 2, "semifinals": 1, "final": 1},
+        "9": {"last16": 5, "quarterfinals": 3, "semifinals": 2, "final": 1},
+        "10": {"last16": 5, "quarterfinals": 3, "semifinals": 2, "final": 1},
+        "11": {"last16": 6, "quarterfinals": 3, "semifinals": 2, "final": 1},
+        "12": {"last16": 6, "quarterfinals": 3, "semifinals": 2, "final": 1},
+        "13": {"last16": 7, "quarterfinals": 4, "semifinals": 2, "final": 1},
+        "14": {"last16": 7, "quarterfinals": 4, "semifinals": 2, "final": 1},
+        "15": {"last16": 8, "quarterfinals": 4, "semifinals": 2, "final": 1},
+        "16": {"last16": 8, "quarterfinals": 4, "semifinals": 2, "final": 1}
+      },
+      "last16": {
+        "1": {"quarterfinals": 1, "semifinals": 1, "final": 1},
+        "2": {"quarterfinals": 1, "semifinals": 1, "final": 1},
+        "3": {"quarterfinals": 2, "semifinals": 1, "final": 1},
+        "4": {"quarterfinals": 2, "semifinals": 1, "final": 1},
+        "5": {"quarterfinals": 3, "semifinals": 2, "final": 1},
+        "6": {"quarterfinals": 3, "semifinals": 2, "final": 1},
+        "7": {"quarterfinals": 4, "semifinals": 2, "final": 1},
+        "8": {"quarterfinals": 4, "semifinals": 2, "final": 1}
+      },
+      "quarterfinals": {
+        "1": {"semifinals": 1, "final": 1},
+        "2": {"semifinals": 1, "final": 1},
+        "3": {"semifinals": 2, "final": 1},
+        "4": {"semifinals": 2, "final": 1}
+      },
+      "semifinals": {
+        "1": {"final": 1},
+        "2": {"final": 1}
+      }
+    }
+  },
+  "draw": {
+    "round1": [
+      {
+        "match": 1,
+        "player1": "amateur_player_1",
+        "player2": "amateur_player_2",
+        "winner": null
+      }
+    ],
+    "round2": [
+      {
+        "match": 1,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      }
+    ],
+    "round3": [
+      {
+        "match": 1,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      }
+    ],
+    "round4": [
+      {
+        "match": 1,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      }
+    ],
+    "last32": [
+      {
+        "match": 1,
+        "player1": "judd_trump",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 2,
+        "player1": "ali_carter",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 3,
+        "player1": "neil_robertson",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 4,
+        "player1": "mark_selby",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 5,
+        "player1": "john_higgins",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 6,
+        "player1": "zhang_anda",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 7,
+        "player1": "shaun_murphy",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 8,
+        "player1": "mark_williams",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 9,
+        "player1": "kyren_wilson",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 10,
+        "player1": "si_jiahui",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 11,
+        "player1": "mark_allen",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 12,
+        "player1": "ronnie_osullivan",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 13,
+        "player1": "ding_junhui",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 14,
+        "player1": "barry_hawkins",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 15,
+        "player1": "chris_wakelin",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 16,
+        "player1": "zhao_xintong",
+        "player2": "tbd",
+        "winner": null
+      }
+    ],
+    "last16": [
+      {
+        "match": 1,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 2,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 3,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 4,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 5,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 6,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 7,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 8,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      }
+    ],
+    "quarterfinals": [
+      {
+        "match": 1,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 2,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 3,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 4,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      }
+    ],
+    "semifinals": [
+      {
+        "match": 1,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      },
+      {
+        "match": 2,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      }
+    ],
+    "final": [
+      {
+        "match": 1,
+        "player1": "tbd",
+        "player2": "tbd",
+        "winner": null
+      }
+    ]
+  }
+} 
