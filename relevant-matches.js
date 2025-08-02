@@ -33,29 +33,44 @@ class RelevantMatches {
     async loadMatches() {
         let dataSource = 'Static';
         
-        // Temporarily disable WST fetcher to test local data
-        console.log('Loading static matches data...');
+        // Try to load live matches data first, fallback to static data
         try {
-            const response = await fetch('data/bracket.json');
-            if (!response.ok) {
-                throw new Error(`Failed to load bracket: ${response.status}`);
+            console.log('Attempting to load live matches data...');
+            const liveData = await WSTFetcher.getLiveTournamentData();
+            this.matches = this.extractMatchesFromTournamentData(liveData);
+            dataSource = 'Live';
+            console.log('Loaded live matches data from WST API');
+        } catch (apiError) {
+            console.warn('Failed to load live data, falling back to static data:', apiError);
+            try {
+                const response = await fetch('data/bracket.json');
+                if (!response.ok) {
+                    throw new Error(`Failed to load bracket: ${response.status}`);
+                }
+                const bracketData = await response.json();
+                this.matches = this.extractMatchesFromBracketData(bracketData);
+                console.log('Loaded static matches data');
+            } catch (error) {
+                console.error('Error loading matches data:', error);
+                throw error;
             }
-            const bracketData = await response.json();
-            this.matches = this.extractMatchesFromBracketData(bracketData);
-            console.log('Loaded static matches data');
-        } catch (error) {
-            console.error('Error loading matches data:', error);
-            throw error;
         }
     }
 
     async loadPlayers() {
         try {
-            const response = await fetch('data/players.json');
-            if (!response.ok) {
-                throw new Error(`Failed to load players: ${response.status}`);
+            // Try to load live player data first, fallback to static data
+            try {
+                const liveData = await WSTFetcher.getLiveTournamentData();
+                this.players = Object.values(liveData.players);
+            } catch (apiError) {
+                console.warn('Failed to load live player data, falling back to static data:', apiError);
+                const response = await fetch('data/players.json');
+                if (!response.ok) {
+                    throw new Error(`Failed to load players: ${response.status}`);
+                }
+                this.players = await response.json();
             }
-            this.players = await response.json();
         } catch (error) {
             console.error('Error loading players data:', error);
             // Don't throw error, just use fallback names

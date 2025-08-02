@@ -1,6 +1,4 @@
 // Leaderboard functionality for Snooker Draft Order Contest
-// Configuration - Set this to true to show player picks, false to hide them
-const SHOW_PLAYER_PICKS = false;
 
 class SnookerLeaderboard {
     constructor() {
@@ -27,15 +25,23 @@ class SnookerLeaderboard {
             // Load participants data from Google Apps Script
             this.participants = await ParticipantsLoader.loadParticipants();
 
-            // Temporarily disable WST fetcher to test local data
+            // Try to load live player data first, fallback to static data
             let dataSource = 'Static';
-            console.log('Loading static player data...');
-            const playersResponse = await fetch('data/players.json');
-            if (!playersResponse.ok) {
-                throw new Error(`Failed to load players: ${playersResponse.status}`);
+            try {
+                console.log('Attempting to load live player data...');
+                const liveData = await WSTFetcher.getLiveTournamentData();
+                this.players = Object.values(liveData.players);
+                dataSource = 'Live';
+                console.log('Loaded live player data from WST API');
+            } catch (apiError) {
+                console.warn('Failed to load live data, falling back to static data:', apiError);
+                const playersResponse = await fetch('data/players.json');
+                if (!playersResponse.ok) {
+                    throw new Error(`Failed to load players: ${playersResponse.status}`);
+                }
+                this.players = await playersResponse.json();
+                console.log('Loaded static player data');
             }
-            this.players = await playersResponse.json();
-            console.log('Loaded static player data');
 
             // Update data source indicator
             this.updateDataSource(dataSource);
@@ -48,12 +54,16 @@ class SnookerLeaderboard {
 
     calculateLeaderboard() {
         this.leaderboardData = this.participants.map(participant => {
+            console.log(`Processing participant: ${participant.name} with picks:`, participant.picks);
             const picks = participant.picks.map(pickId => {
                 // Handle null picks
                 if (pickId === null || pickId === undefined) {
                     return null;
                 }
                 const player = this.players.find(p => p.id === pickId);
+                if (!player) {
+                    console.log(`Player not found for ID: ${pickId}`);
+                }
                 return player || { name: 'Unknown Player', points: 0, status: 'eliminated' };
             });
 
@@ -152,7 +162,7 @@ class SnookerLeaderboard {
             return '<span class="no-pick">No Pick</span>';
         }
 
-        if (!SHOW_PLAYER_PICKS) {
+        if (!CONFIG.SHOW_PLAYER_PICKS) {
             return '<span class="pick-hidden">👁️ Hidden</span>';
         }
 

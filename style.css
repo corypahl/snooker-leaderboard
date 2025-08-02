@@ -100,6 +100,16 @@ header h1 {
     transform: none;
 }
 
+.auto-refresh-info {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: #4ecdc4;
+}
+
+.auto-refresh-info span {
+    font-weight: 500;
+}
+
 .header-controls {
     display: flex;
     justify-content: center;

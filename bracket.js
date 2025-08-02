@@ -19,19 +19,36 @@ class TournamentBracket {
     async loadBracketData() {
         let dataSource = 'Static';
         
-        // Temporarily disable WST fetcher to test local data
-        console.log('Loading static bracket data...');
+        // Try to load live data first, fallback to static data
         try {
-            const response = await fetch('data/bracket.json');
-            if (!response.ok) {
-                throw new Error(`Failed to load bracket: ${response.status}`);
-            }
-            this.bracketData = await response.json();
-            console.log('Loaded static bracket data');
+            console.log('Attempting to load live tournament data...');
+            this.bracketData = await WSTFetcher.getLiveTournamentData();
+            dataSource = 'Live';
+            console.log('Loaded live tournament data from WST API');
             this.updateDataSource(dataSource);
-        } catch (error) {
-            console.error('Error loading bracket data:', error);
-            throw error;
+        } catch (apiError) {
+            if (CONFIG.DEBUG.SHOW_API_ERRORS) {
+                console.warn('Failed to load live data, falling back to static data:', apiError);
+            }
+            
+            if (!CONFIG.API_FALLBACK_ENABLED) {
+                throw new Error('API fallback is disabled in configuration');
+            }
+            
+            try {
+                const response = await fetch('data/bracket.json');
+                if (!response.ok) {
+                    throw new Error(`Failed to load bracket: ${response.status}`);
+                }
+                this.bracketData = await response.json();
+                if (CONFIG.DEBUG.ENABLE_LOGGING) {
+                    console.log('Loaded static bracket data');
+                }
+                this.updateDataSource(dataSource);
+            } catch (error) {
+                console.error('Error loading bracket data:', error);
+                throw error;
+            }
         }
     }
 
@@ -72,16 +89,37 @@ class TournamentBracket {
         }
 
         // Use the most sophisticated calculation method
-        return maxPoints + this.calculateAdvancedBracketMaxPoints(playersStillIn);
+        try {
+            return maxPoints + this.calculateAdvancedBracketMaxPoints(playersStillIn);
+        } catch (error) {
+            console.warn('Advanced bracket calculation failed, using fallback:', error);
+            return maxPoints + this.calculateSimpleMaxPoints(playersStillIn);
+        }
     }
 
     // Advanced bracket-based max points calculation
     calculateAdvancedBracketMaxPoints(players) {
+        // Check if bracket data is available
+        if (!this.bracketData || !this.bracketData.bracketStructure || !this.bracketData.draw) {
+            throw new Error('Bracket data not available');
+        }
+        
         // Get player match positions and bracket paths
         const playerPaths = this.getPlayerBracketPaths(players);
         
+        // Debug logging
+        console.log('Players for max points calculation:', players.map(p => ({ id: p.id, name: p.name, matches: p.matches })));
+        console.log('Player paths:', playerPaths.map(pp => ({ 
+            player: pp.player.name, 
+            path: pp.path,
+            semifinal: pp.path.semifinalMatch
+        })));
+        
         // Calculate max points based on bracket conflicts
-        return this.calculateMaxPointsFromPaths(playerPaths);
+        const maxPoints = this.calculateMaxPointsFromPaths(playerPaths);
+        console.log('Calculated max points:', maxPoints);
+        
+        return maxPoints;
     }
 
     // Get each player's bracket path through the tournament
@@ -104,16 +142,33 @@ class TournamentBracket {
 
     // Get a player's complete bracket path
     getPlayerPath(player) {
-        // Find which Last 32 match this player is in
+        // Use the player's match progression data if available
+        if (player.matches) {
+            console.log(`Player ${player.name} has matches data:`, player.matches);
+            return {
+                last32Match: player.matches.last32.toString(),
+                last16Match: player.matches.last16,
+                quarterfinalMatch: player.matches.quarterfinals,
+                semifinalMatch: player.matches.semifinals,
+                finalMatch: player.matches.final
+            };
+        } else {
+            console.log(`Player ${player.name} has NO matches data`);
+        }
+
+        // Fallback to bracket data if player doesn't have match progression
         const last32Match = this.findPlayerLast32Match(player.id);
         if (!last32Match) return null;
 
+        const progression = this.bracketData.bracketStructure.matchProgression.last32[last32Match];
+        if (!progression) return null;
+
         return {
             last32Match: last32Match,
-            last16Match: this.bracketData.bracketStructure.matchProgression.last32[last32Match].last16,
-            quarterfinalMatch: this.bracketData.bracketStructure.matchProgression.last32[last32Match].quarterfinals,
-            semifinalMatch: this.bracketData.bracketStructure.matchProgression.last32[last32Match].semifinals,
-            finalMatch: this.bracketData.bracketStructure.matchProgression.last32[last32Match].final
+            last16Match: progression.last16,
+            quarterfinalMatch: progression.quarterfinals,
+            semifinalMatch: progression.semifinals,
+            finalMatch: progression.final
         };
     }
 
@@ -135,6 +190,37 @@ class TournamentBracket {
         return 14;
     }
 
+    // Simple fallback max points calculation
+    calculateSimpleMaxPoints(picks) {
+        let maxPoints = 0;
+        let playersStillIn = 0;
+        
+        picks.forEach(pick => {
+            // Handle null picks
+            if (!pick || pick === null) {
+                return; // Skip null picks
+            }
+            
+            if (pick.status === 'playing') {
+                playersStillIn++;
+            } else {
+                maxPoints += pick.points;
+            }
+        });
+        
+        if (playersStillIn > 0) {
+            if (playersStillIn === 1) {
+                maxPoints += 14;
+            } else if (playersStillIn === 2) {
+                maxPoints += 14 + 10;
+            } else {
+                maxPoints += 14 + 10 + (6 * (playersStillIn - 2));
+            }
+        }
+        
+        return maxPoints;
+    }
+
     // Calculate max points considering bracket conflicts
     calculateMaxPointsFromPaths(playerPaths) {
         if (playerPaths.length === 0) return 0;
@@ -150,26 +236,26 @@ class TournamentBracket {
     // Identify which players have conflicting bracket paths
     identifyBracketConflicts(playerPaths) {
         const conflicts = {
-            semifinal1: [],
-            semifinal2: [],
-            semifinal3: [],
-            semifinal4: [],
+            semifinal1: [], // Match 15
+            semifinal2: [], // Match 16
             final: []
         };
 
+        // Group players by their actual semifinal matches
         playerPaths.forEach(playerPath => {
             const path = playerPath.path;
             
-            // Group by semifinal match
-            if (path.semifinalMatch === 15) {
+            if (path.semifinalMatch === 141) {
                 conflicts.semifinal1.push(playerPath);
-            } else if (path.semifinalMatch === 16) {
+            } else if (path.semifinalMatch === 142) {
                 conflicts.semifinal2.push(playerPath);
-            } else if (path.semifinalMatch === 17) {
-                conflicts.semifinal3.push(playerPath);
-            } else if (path.semifinalMatch === 18) {
-                conflicts.semifinal4.push(playerPath);
             }
+        });
+
+        // Debug logging
+        console.log('Bracket conflicts:', {
+            semifinal1: conflicts.semifinal1.map(p => p.player.name),
+            semifinal2: conflicts.semifinal2.map(p => p.player.name)
         });
 
         return conflicts;
@@ -177,35 +263,43 @@ class TournamentBracket {
 
     // Calculate max points considering bracket conflicts
     calculateMaxPointsWithConflicts(conflicts) {
-        let totalMaxPoints = 0;
-
-        // Only one player can win (14 points)
-        // Only one player can be finalist (10 points)
-        // Two players can be semi-finalists (6 points each)
-
         const semifinal1Count = conflicts.semifinal1.length;
         const semifinal2Count = conflicts.semifinal2.length;
-        const semifinal3Count = conflicts.semifinal3.length;
-        const semifinal4Count = conflicts.semifinal4.length;
+        const totalPlayers = semifinal1Count + semifinal2Count;
 
-        // Calculate total players in semifinals
-        const totalSemifinalPlayers = semifinal1Count + semifinal2Count + semifinal3Count + semifinal4Count;
+        console.log('Max points calculation:', {
+            semifinal1Count,
+            semifinal2Count,
+            totalPlayers
+        });
 
-        if (totalSemifinalPlayers === 0) {
+        if (totalPlayers === 0) {
             return 0;
-        } else if (totalSemifinalPlayers === 1) {
+        } else if (totalPlayers === 1) {
             return 14; // Can win
-        } else if (totalSemifinalPlayers === 2) {
+        } else if (totalPlayers === 2) {
             // Check if they're in the same semifinal (conflict) or different semifinals
-            if ((semifinal1Count === 2) || (semifinal2Count === 2) || (semifinal3Count === 2) || (semifinal4Count === 2)) {
+            if (semifinal1Count === 2 || semifinal2Count === 2) {
+                console.log('2 players in same semifinal - max points: 20');
                 return 14 + 6; // One winner, one semi-finalist
             } else {
+                console.log('2 players in different semifinals - max points: 24');
                 return 14 + 10; // One winner, one finalist
             }
-        } else if (totalSemifinalPlayers === 3) {
-            return 14 + 10 + 6; // One winner, one finalist, one semi-finalist
+        } else if (totalPlayers === 3) {
+            // Three players across two semifinals
+            if (semifinal1Count === 2 && semifinal2Count === 1) {
+                console.log('3 players: 2 in semifinal1, 1 in semifinal2 - max points: 30');
+                return 14 + 10 + 6; // One winner, one finalist, one semi-finalist
+            } else if (semifinal1Count === 1 && semifinal2Count === 2) {
+                console.log('3 players: 1 in semifinal1, 2 in semifinal2 - max points: 30');
+                return 14 + 10 + 6; // One winner, one finalist, one semi-finalist
+            } else {
+                console.log('3 players in different semifinals - max points: 30');
+                return 14 + 10 + 6; // One winner, one finalist, one semi-finalist
+            }
         } else {
-            // For more complex scenarios, use a more sophisticated calculation
+            // Four or more players - calculate optimal scenario
             return this.calculateComplexMaxPoints(conflicts);
         }
     }
@@ -214,12 +308,10 @@ class TournamentBracket {
     calculateComplexMaxPoints(conflicts) {
         const semifinal1Count = conflicts.semifinal1.length;
         const semifinal2Count = conflicts.semifinal2.length;
-        const semifinal3Count = conflicts.semifinal3.length;
-        const semifinal4Count = conflicts.semifinal4.length;
-        const totalPlayers = semifinal1Count + semifinal2Count + semifinal3Count + semifinal4Count;
+        const totalPlayers = semifinal1Count + semifinal2Count;
 
         // Sort players by seed to prioritize better players
-        const allPlayers = [...conflicts.semifinal1, ...conflicts.semifinal2, ...conflicts.semifinal3, ...conflicts.semifinal4]
+        const allPlayers = [...conflicts.semifinal1, ...conflicts.semifinal2]
             .sort((a, b) => {
                 const seedA = typeof a.player.seed === 'number' ? a.player.seed : 999;
                 const seedB = typeof b.player.seed === 'number' ? b.player.seed : 999;
@@ -236,12 +328,7 @@ class TournamentBracket {
         }
 
         // Assign finalist (10 points) to second best player if in different semifinal
-        if (totalPlayers >= 2 && (semifinal1Count > 0 && semifinal2Count > 0) || 
-            (semifinal1Count > 0 && semifinal3Count > 0) || 
-            (semifinal1Count > 0 && semifinal4Count > 0) ||
-            (semifinal2Count > 0 && semifinal3Count > 0) || 
-            (semifinal2Count > 0 && semifinal4Count > 0) ||
-            (semifinal3Count > 0 && semifinal4Count > 0)) {
+        if (totalPlayers >= 2 && semifinal1Count > 0 && semifinal2Count > 0) {
             maxPoints += 10;
             playersAssigned++;
         }
@@ -498,7 +585,7 @@ class TournamentBracket {
                     <div class="bracket-round last32">
                         <div class="round-header">
                             <h5>Last 32</h5>
-                            <span class="round-dates">${this.bracketData.rounds.round5.dates}</span>
+                            <span class="round-dates">${this.bracketData.rounds.last32.dates}</span>
                         </div>
                         <div class="bracket-matches">
                             ${this.renderBracketMatches('last32')}
@@ -507,7 +594,7 @@ class TournamentBracket {
                     <div class="bracket-round last16">
                         <div class="round-header">
                             <h5>Last 16</h5>
-                            <span class="round-dates">${this.bracketData.rounds.round6.dates}</span>
+                            <span class="round-dates">${this.bracketData.rounds.last16.dates}</span>
                         </div>
                         <div class="bracket-matches">
                             ${this.renderBracketMatches('last16')}

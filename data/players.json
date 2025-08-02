@@ -4,140 +4,280 @@
     "name": "Judd Trump",
     "status": "playing",
     "points": 0,
-    "seed": 1
+    "seed": 1,
+    "matches": {
+      "last32": 113,
+      "last16": 129,
+      "quarterfinals": 137,
+      "semifinals": 141,
+      "final": 143
+    }
   },
   {
     "id": "kyren_wilson",
     "name": "Kyren Wilson",
     "status": "playing",
     "points": 0,
-    "seed": 2
+    "seed": 2,
+    "matches": {
+      "last32": 121,
+      "last16": 133,
+      "quarterfinals": 139,
+      "semifinals": 142,
+      "final": 143
+    }
   },
   {
     "id": "mark_williams",
     "name": "Mark Williams",
     "status": "playing",
     "points": 0,
-    "seed": 3
+    "seed": 3,
+    "matches": {
+      "last32": 120,
+      "last16": 132,
+      "quarterfinals": 138,
+      "semifinals": 141,
+      "final": 143
+    }
   },
   {
     "id": "john_higgins",
     "name": "John Higgins",
     "status": "playing",
     "points": 0,
-    "seed": 4
+    "seed": 4,
+    "matches": {
+      "last32": 117,
+      "last16": 131,
+      "quarterfinals": 138,
+      "semifinals": 141,
+      "final": 143
+    }
   },
   {
     "id": "ronnie_osullivan",
     "name": "Ronnie O'Sullivan",
     "status": "playing",
     "points": 0,
-    "seed": 5
+    "seed": 5,
+    "matches": {
+      "last32": 124,
+      "last16": 134,
+      "quarterfinals": 139,
+      "semifinals": 142,
+      "final": 143
+    }
   },
   {
     "id": "ding_junhui",
     "name": "Ding Junhui",
     "status": "playing",
     "points": 0,
-    "seed": 6
+    "seed": 6,
+    "matches": {
+      "last32": 125,
+      "last16": 135,
+      "quarterfinals": 140,
+      "semifinals": 142,
+      "final": 143
+    }
   },
   {
     "id": "mark_selby",
     "name": "Mark Selby",
     "status": "playing",
     "points": 0,
-    "seed": 7
+    "seed": 7,
+    "matches": {
+      "last32": 116,
+      "last16": 130,
+      "quarterfinals": 137,
+      "semifinals": 141,
+      "final": 143
+    }
   },
   {
     "id": "neil_robertson",
     "name": "Neil Robertson",
     "status": "playing",
     "points": 0,
-    "seed": 8
+    "seed": 8,
+    "matches": {
+      "last32": 115,
+      "last16": 130,
+      "quarterfinals": 137,
+      "semifinals": 141,
+      "final": 143
+    }
   },
   {
     "id": "barry_hawkins",
     "name": "Barry Hawkins",
     "status": "playing",
     "points": 0,
-    "seed": 9
+    "seed": 9,
+    "matches": {
+      "last32": 126,
+      "last16": 135,
+      "quarterfinals": 140,
+      "semifinals": 142,
+      "final": 143
+    }
   },
   {
     "id": "mark_allen",
     "name": "Mark Allen",
     "status": "playing",
     "points": 0,
-    "seed": 10
+    "seed": 10,
+    "matches": {
+      "last32": 123,
+      "last16": 134,
+      "quarterfinals": 139,
+      "semifinals": 142,
+      "final": 143
+    }
   },
   {
     "id": "zhao_xintong",
     "name": "Zhao Xintong",
     "status": "playing",
     "points": 0,
-    "seed": 11
+    "seed": 11,
+    "matches": {
+      "last32": 128,
+      "last16": 136,
+      "quarterfinals": 140,
+      "semifinals": 142,
+      "final": 143
+    }
   },
   {
     "id": "zhang_anda",
     "name": "Zhang Anda",
     "status": "playing",
     "points": 0,
-    "seed": 12
+    "seed": 12,
+    "matches": {
+      "last32": 118,
+      "last16": 131,
+      "quarterfinals": 138,
+      "semifinals": 141,
+      "final": 143
+    }
   },
   {
     "id": "si_jiahui",
     "name": "Si Jiahui",
     "status": "playing",
     "points": 0,
-    "seed": 14
+    "seed": 14,
+    "matches": {
+      "last32": 122,
+      "last16": 133,
+      "quarterfinals": 139,
+      "semifinals": 142,
+      "final": 143
+    }
   },
   {
     "id": "shaun_murphy",
     "name": "Shaun Murphy",
     "status": "playing",
     "points": 0,
-    "seed": 15
+    "seed": 15,
+    "matches": {
+      "last32": 119,
+      "last16": 132,
+      "quarterfinals": 138,
+      "semifinals": 141,
+      "final": 143
+    }
   },
   {
     "id": "chris_wakelin",
     "name": "Chris Wakelin",
     "status": "playing",
     "points": 0,
-    "seed": 16
+    "seed": 16,
+    "matches": {
+      "last32": 127,
+      "last16": 136,
+      "quarterfinals": 140,
+      "semifinals": 142,
+      "final": 143
+    }
   },
   {
     "id": "ali_carter",
     "name": "Ali Carter",
     "status": "playing",
     "points": 0,
-    "seed": 17
+    "seed": 17,
+    "matches": {
+      "last32": 114,
+      "last16": 129,
+      "quarterfinals": 137,
+      "semifinals": 141,
+      "final": 143
+    }
   },
   {
     "id": "tom_ford",
     "name": "Tom Ford",
     "status": "playing",
     "points": 0,
-    "seed": 18
+    "seed": 18,
+    "matches": {
+      "last32": 135,
+      "last16": 145,
+      "quarterfinals": 149,
+      "semifinals": 151,
+      "final": 153
+    }
   },
   {
     "id": "gary_wilson",
     "name": "Gary Wilson",
     "status": "playing",
     "points": 0,
-    "seed": 19
+    "seed": 19,
+    "matches": {
+      "last32": 136,
+      "last16": 146,
+      "quarterfinals": 150,
+      "semifinals": 152,
+      "final": 153
+    }
   },
   {
     "id": "wu_yize",
     "name": "Wu Yize",
     "status": "playing",
     "points": 0,
-    "seed": 20
+    "seed": 20,
+    "matches": {
+      "last32": 137,
+      "last16": 147,
+      "quarterfinals": 151,
+      "semifinals": 153,
+      "final": 155
+    }
   },
   {
     "id": "stuart_bingham",
     "name": "Stuart Bingham",
     "status": "playing",
     "points": 0,
-    "seed": 21
+    "seed": 21,
+    "matches": {
+      "last32": 138,
+      "last16": 148,
+      "quarterfinals": 152,
+      "semifinals": 154,
+      "final": 155
+    }
   },
   {
     "id": "jak_jones",
@@ -151,7 +291,14 @@
     "name": "David Gilbert",
     "status": "playing",
     "points": 0,
-    "seed": 23
+    "seed": 23,
+    "matches": {
+      "last32": 139,
+      "last16": 149,
+      "quarterfinals": 153,
+      "semifinals": 155,
+      "final": 157
+    }
   },
   {
     "id": "hossein_vafaei",

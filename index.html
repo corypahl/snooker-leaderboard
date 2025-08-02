@@ -10,16 +10,13 @@
     <header>
         <h1>2025 Saudi Arabia Snooker Masters</h1>
         <div class="header-controls">
-            <div class="last-updated">
-                Last updated: <span id="lastUpdated">Loading...</span>
-            </div>
-            <div class="data-source">
-                Data source: <span id="dataSource">Loading...</span>
-            </div>
             <div class="refresh-controls">
                 <button id="refreshData" class="refresh-btn" title="Refresh tournament data">
                     🔄 Refresh
                 </button>
+                <div class="auto-refresh-info">
+                    <span id="autoRefreshStatus">Auto-refresh: 5 min</span>
+                </div>
             </div>
         </div>
     </header>
@@ -116,23 +113,28 @@
             </div>
         </section>
 
-        <section class="relevant-matches">
-            <h2>Relevant Matches</h2>
-            <p class="section-description">Matches involving players picked by participants</p>
-            <div id="relevantMatchesContainer" class="relevant-matches-container">
-                <div class="loading">Loading relevant matches...</div>
-            </div>
-        </section>
+
     </main>
 
     <footer>
         <p>&copy; 2025 Snooker Draft Order Contest</p>
     </footer>
 
+    <script src="config.js"></script>
     <script src="participants-loader.js"></script>
     <script src="wst-fetcher.js"></script>
     <script src="leaderboard.js"></script>
     <script src="bracket.js"></script>
-    <script src="relevant-matches.js"></script>
+    <script src="auto-refresh.js"></script>
+    <script src="validate-data.js"></script>
+    <script>
+        // Initialize auto-refresh manager after all components are loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Wait a bit for all components to initialize
+            setTimeout(() => {
+                window.autoRefreshManager = new AutoRefreshManager();
+            }, 1000);
+        });
+    </script>
 </body>
 </html> 
