@@ -7,7 +7,7 @@
 
 const CONFIG = {
     // Display Settings
-    SHOW_PLAYER_PICKS: false,  // Set to true to show player picks, false to hide them
+    SHOW_PLAYER_PICKS: true,  // Set to true to show player picks, false to hide them
     
     // Auto-refresh Settings
     AUTO_REFRESH_ENABLED: true,  // Enable/disable auto-refresh functionality
