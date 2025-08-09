@@ -25,26 +25,17 @@ class SnookerLeaderboard {
             // Load participants data from Google Apps Script
             this.participants = await ParticipantsLoader.loadParticipants();
 
-            // Try to load live player data first, fallback to static data
-            let dataSource = 'Static';
-            try {
-                console.log('Attempting to load live player data...');
-                const liveData = await WSTFetcher.getLiveTournamentData();
-                this.players = Object.values(liveData.players);
-                dataSource = 'Live';
-                console.log('Loaded live player data from WST API');
-            } catch (apiError) {
-                console.warn('Failed to load live data, falling back to static data:', apiError);
-                const playersResponse = await fetch('data/players.json');
-                if (!playersResponse.ok) {
-                    throw new Error(`Failed to load players: ${playersResponse.status}`);
-                }
-                this.players = await playersResponse.json();
-                console.log('Loaded static player data');
+            // Always load static data first to ensure we have complete player data
+            console.log('Loading static player data for complete dataset...');
+            const playersResponse = await fetch('data/players.json');
+            if (!playersResponse.ok) {
+                throw new Error(`Failed to load players: ${playersResponse.status}`);
             }
+            this.players = await playersResponse.json();
+            console.log('Loaded static player data with', this.players.length, 'players');
 
             // Update data source indicator
-            this.updateDataSource(dataSource);
+            this.updateDataSource('Static');
 
         } catch (error) {
             console.error('Error loading data:', error);
@@ -53,6 +44,10 @@ class SnookerLeaderboard {
     }
 
     calculateLeaderboard() {
+        // Debug: Log available player IDs and names
+        console.log('Available player IDs:', this.players.map(p => p.id).slice(0, 10));
+        console.log('Available player names:', this.players.map(p => p.name).slice(0, 10));
+        
         this.leaderboardData = this.participants.map(participant => {
             console.log(`Processing participant: ${participant.name} with picks:`, participant.picks);
             const picks = participant.picks.map(pickId => {
@@ -60,11 +55,18 @@ class SnookerLeaderboard {
                 if (pickId === null || pickId === undefined) {
                     return null;
                 }
-                const player = this.players.find(p => p.id === pickId);
+                
+                // Simple name-based lookup (case-insensitive)
+                const player = this.players.find(p => 
+                    p.name && p.name.toLowerCase() === pickId.toLowerCase()
+                );
+                
                 if (!player) {
-                    console.log(`Player not found for ID: ${pickId}`);
+                    console.log(`Player not found: ${pickId}`);
+                    // Return a fallback object with the original name for display
+                    return { name: pickId, points: 0, status: 'unknown', id: pickId };
                 }
-                return player || { name: 'Unknown Player', points: 0, status: 'eliminated' };
+                return player;
             });
 
             const totalPoints = picks.reduce((sum, pick) => {
@@ -78,11 +80,15 @@ class SnookerLeaderboard {
             // Use bracket-based max points calculation if available
             let maxPoints;
             if (window.tournamentBracket && window.tournamentBracket.bracketData) {
+                console.log(`Using bracket-based max points calculation for ${participant.name}`);
                 maxPoints = window.tournamentBracket.calculateAccurateMaxPoints(picks);
             } else {
+                console.log(`Using simple max points calculation for ${participant.name} (bracket not available)`);
                 // Fallback to simple calculation
                 maxPoints = this.calculateSimpleMaxPoints(picks);
             }
+            
+            console.log(`${participant.name}: totalPoints=${totalPoints}, maxPoints=${maxPoints}`);
 
             return {
                 ...participant,
@@ -95,6 +101,8 @@ class SnookerLeaderboard {
         // Sort by max points descending
         this.leaderboardData.sort((a, b) => b.maxPoints - a.maxPoints);
     }
+
+
 
     // Fallback simple max points calculation
     calculateSimpleMaxPoints(picks) {
@@ -183,6 +191,8 @@ class SnookerLeaderboard {
             case 'eliminated':
             case 'eliminated_early':
                 return '❌';
+            case 'unknown':
+                return '❓';
             default:
                 return '❓';
         }
@@ -246,18 +256,7 @@ class SnookerLeaderboard {
         }
     }
 
-    // Method to refresh data (useful for manual updates)
-    async refresh() {
-        try {
-            await this.loadData();
-            this.calculateLeaderboard();
-            this.renderLeaderboard();
-            this.updateLastUpdated();
-        } catch (error) {
-            console.error('Error refreshing leaderboard:', error);
-            this.showError('Failed to refresh data');
-        }
-    }
+
 
 
 }
@@ -265,39 +264,4 @@ class SnookerLeaderboard {
 // Initialize the leaderboard when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     window.snookerLeaderboard = new SnookerLeaderboard();
-    
-    // Add refresh button functionality
-    const refreshBtn = document.getElementById('refreshData');
-    if (refreshBtn) {
-        refreshBtn.addEventListener('click', async () => {
-            refreshBtn.disabled = true;
-            refreshBtn.textContent = '🔄 Refreshing...';
-            
-            try {
-                await window.snookerLeaderboard.refresh();
-                if (window.tournamentBracket) {
-                    await window.tournamentBracket.refresh();
-                }
-            } catch (error) {
-                console.error('Error refreshing data:', error);
-            } finally {
-                refreshBtn.disabled = false;
-                refreshBtn.textContent = '🔄 Refresh';
-            }
-        });
-    }
-});
-
-// Add refresh functionality (optional - can be called manually)
-window.refreshLeaderboard = () => {
-    if (window.snookerLeaderboard) {
-        window.snookerLeaderboard.refresh();
-    }
-};
-
-// Auto-refresh every 5 minutes (optional)
-setInterval(() => {
-    if (window.snookerLeaderboard) {
-        window.snookerLeaderboard.refresh();
-    }
-}, 5 * 60 * 1000); 
+}); 

@@ -12,8 +12,7 @@ class AutoRefreshManager {
 
     init() {
         this.updateStatusDisplay();
-        this.startAutoRefresh();
-        this.setupRefreshButton();
+        // Auto-refresh disabled - removed startAutoRefresh() and setupRefreshButton()
     }
 
     startAutoRefresh() {

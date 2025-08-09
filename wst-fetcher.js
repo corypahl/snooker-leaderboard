@@ -75,12 +75,13 @@ class WSTFetcher {
             const roundName = this.normalizeRoundName(round.roundName);
             const roundKey = this.getRoundKey(roundName);
             
-            // Store round info
+            // Store round info with default dates
             transformed.rounds[roundKey] = {
                 name: round.roundName,
                 roundNumber: round.roundNumber,
                 matches: round.matches?.length || 0,
-                players: this.calculatePlayersInRound(round.matches)
+                players: this.calculatePlayersInRound(round.matches),
+                dates: this.getDefaultDates(roundKey)
             };
 
             // Transform matches
@@ -162,6 +163,26 @@ class WSTFetcher {
     static calculatePlayersInRound(matches) {
         if (!matches) return 0;
         return matches.length * 2; // Each match has 2 players
+    }
+
+    /**
+     * Get default dates for rounds based on tournament schedule
+     * @param {string} roundKey - The round key
+     * @returns {string} Default date string
+     */
+    static getDefaultDates(roundKey) {
+        const defaultDates = {
+            'round1': 'Aug 8-9',
+            'round2': 'Aug 10',
+            'round3': 'Aug 11',
+            'round4': 'Aug 12',
+            'last32': 'Aug 13',
+            'last16': 'Aug 14',
+            'quarterfinals': 'Aug 15',
+            'semifinals': 'Aug 16',
+            'final': 'Aug 16'
+        };
+        return defaultDates[roundKey] || 'TBD';
     }
 
     /**

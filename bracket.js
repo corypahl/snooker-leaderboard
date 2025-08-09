@@ -3,7 +3,25 @@ class TournamentBracket {
     constructor() {
         this.bracketData = null;
         this.players = [];
-        this.init();
+        // Wait for leaderboard to be ready before initializing
+        this.waitForLeaderboard();
+    }
+
+    async waitForLeaderboard() {
+        // Wait for leaderboard to be available
+        let attempts = 0;
+        while (!window.snookerLeaderboard && attempts < 50) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+            attempts++;
+        }
+        
+        if (window.snookerLeaderboard) {
+            console.log('Leaderboard ready, initializing bracket');
+            this.init();
+        } else {
+            console.log('Leaderboard not available, initializing bracket with static data');
+            this.init();
+        }
     }
 
     async init() {
@@ -22,7 +40,23 @@ class TournamentBracket {
         // Try to load live data first, fallback to static data
         try {
             console.log('Attempting to load live tournament data...');
-            this.bracketData = await WSTFetcher.getLiveTournamentData();
+            const liveData = await WSTFetcher.getLiveTournamentData();
+            
+            // Check if live data contains the players we need (if leaderboard is available)
+            if (window.snookerLeaderboard && window.snookerLeaderboard.participants) {
+                const participantPicks = window.snookerLeaderboard.participants.flatMap(p => p.picks).filter(p => p !== null);
+                const livePlayerNames = Object.values(liveData.players).map(p => p.name);
+                const missingPlayers = participantPicks.filter(pick => 
+                    !livePlayerNames.some(name => name.toLowerCase() === pick.toLowerCase())
+                );
+                
+                if (missingPlayers.length > 0) {
+                    console.log('Live bracket data missing key players, falling back to static data:', missingPlayers);
+                    throw new Error('Live bracket data incomplete');
+                }
+            }
+            
+            this.bracketData = liveData;
             dataSource = 'Live';
             console.log('Loaded live tournament data from WST API');
             this.updateDataSource(dataSource);
@@ -54,11 +88,19 @@ class TournamentBracket {
 
     async loadPlayersData() {
         try {
-            const response = await fetch('data/players.json');
-            if (!response.ok) {
-                throw new Error(`Failed to load players: ${response.status}`);
+            // Try to use the same player data as the leaderboard if available
+            if (window.snookerLeaderboard && window.snookerLeaderboard.players) {
+                this.players = window.snookerLeaderboard.players;
+                console.log('Using player data from leaderboard');
+            } else {
+                // Fallback to static data
+                const response = await fetch('data/players.json');
+                if (!response.ok) {
+                    throw new Error(`Failed to load players: ${response.status}`);
+                }
+                this.players = await response.json();
+                console.log('Loaded static player data for bracket');
             }
-            this.players = await response.json();
         } catch (error) {
             console.error('Error loading players data:', error);
             // Don't throw error, just use fallback names
@@ -67,6 +109,8 @@ class TournamentBracket {
 
     // Calculate accurate max points based on complete tournament bracket structure
     calculateAccurateMaxPoints(picks) {
+        console.log('Bracket calculating max points for picks:', picks.map(p => p ? p.name : 'null'));
+        
         let maxPoints = 0;
         let playersStillIn = [];
 
@@ -77,6 +121,8 @@ class TournamentBracket {
                 return; // Skip null picks
             }
             
+            console.log(`Player ${pick.name}: status=${pick.status}, points=${pick.points}`);
+            
             if (pick.status === 'playing') {
                 playersStillIn.push(pick);
             } else {
@@ -84,16 +130,23 @@ class TournamentBracket {
             }
         });
 
+        console.log(`Players still in: ${playersStillIn.length}, Current max points: ${maxPoints}`);
+
         if (playersStillIn.length === 0) {
+            console.log('No players still in, returning current max points:', maxPoints);
             return maxPoints;
         }
 
         // Use the most sophisticated calculation method
         try {
-            return maxPoints + this.calculateAdvancedBracketMaxPoints(playersStillIn);
+            const advancedPoints = this.calculateAdvancedBracketMaxPoints(playersStillIn);
+            console.log('Advanced bracket calculation result:', advancedPoints);
+            return maxPoints + advancedPoints;
         } catch (error) {
             console.warn('Advanced bracket calculation failed, using fallback:', error);
-            return maxPoints + this.calculateSimpleMaxPoints(playersStillIn);
+            const simplePoints = this.calculateSimpleMaxPoints(playersStillIn);
+            console.log('Simple fallback calculation result:', simplePoints);
+            return maxPoints + simplePoints;
         }
     }
 
@@ -585,7 +638,7 @@ class TournamentBracket {
                     <div class="bracket-round last32">
                         <div class="round-header">
                             <h5>Last 32</h5>
-                            <span class="round-dates">${this.bracketData.rounds.last32.dates}</span>
+                            <span class="round-dates">${this.bracketData.rounds.last32?.dates || 'Aug 13'}</span>
                         </div>
                         <div class="bracket-matches">
                             ${this.renderBracketMatches('last32')}
@@ -594,7 +647,7 @@ class TournamentBracket {
                     <div class="bracket-round last16">
                         <div class="round-header">
                             <h5>Last 16</h5>
-                            <span class="round-dates">${this.bracketData.rounds.last16.dates}</span>
+                            <span class="round-dates">${this.bracketData.rounds.last16?.dates || 'Aug 14'}</span>
                         </div>
                         <div class="bracket-matches">
                             ${this.renderBracketMatches('last16')}
@@ -603,7 +656,7 @@ class TournamentBracket {
                     <div class="bracket-round quarterfinals">
                         <div class="round-header">
                             <h5>Quarter-finals</h5>
-                            <span class="round-dates">${this.bracketData.rounds.quarterfinals.dates}</span>
+                            <span class="round-dates">${this.bracketData.rounds.quarterfinals?.dates || 'Aug 15'}</span>
                         </div>
                         <div class="bracket-matches">
                             ${this.renderBracketMatches('quarterfinals')}
@@ -612,7 +665,7 @@ class TournamentBracket {
                     <div class="bracket-round semifinals">
                         <div class="round-header">
                             <h5>Semi-finals</h5>
-                            <span class="round-dates">${this.bracketData.rounds.semifinals.dates}</span>
+                            <span class="round-dates">${this.bracketData.rounds.semifinals?.dates || 'Aug 16'}</span>
                         </div>
                         <div class="bracket-matches">
                             ${this.renderBracketMatches('semifinals')}
@@ -621,7 +674,7 @@ class TournamentBracket {
                     <div class="bracket-round final">
                         <div class="round-header">
                             <h5>Final</h5>
-                            <span class="round-dates">${this.bracketData.rounds.final.dates}</span>
+                            <span class="round-dates">${this.bracketData.rounds.final?.dates || 'Aug 16'}</span>
                         </div>
                         <div class="bracket-matches">
                             ${this.renderBracketMatches('final')}
