@@ -26,9 +26,13 @@ class TournamentBracket {
 
     async init() {
         try {
+            console.log('Bracket init: Loading bracket data...');
             await this.loadBracketData();
+            console.log('Bracket init: Bracket data loaded, loading players data...');
             await this.loadPlayersData();
+            console.log('Bracket init: Players data loaded, rendering bracket...');
             this.renderBracket();
+            console.log('Bracket init: Complete!');
         } catch (error) {
             console.error('Error initializing bracket:', error);
         }
@@ -37,52 +41,19 @@ class TournamentBracket {
     async loadBracketData() {
         let dataSource = 'Static';
         
-        // Try to load live data first, fallback to static data
+        // Always load static data to ensure we have complete bracket structure
+        console.log('Loading static bracket data for complete tournament structure...');
         try {
-            console.log('Attempting to load live tournament data...');
-            const liveData = await WSTFetcher.getLiveTournamentData();
-            
-            // Check if live data contains the players we need (if leaderboard is available)
-            if (window.snookerLeaderboard && window.snookerLeaderboard.participants) {
-                const participantPicks = window.snookerLeaderboard.participants.flatMap(p => p.picks).filter(p => p !== null);
-                const livePlayerNames = Object.values(liveData.players).map(p => p.name);
-                const missingPlayers = participantPicks.filter(pick => 
-                    !livePlayerNames.some(name => name.toLowerCase() === pick.toLowerCase())
-                );
-                
-                if (missingPlayers.length > 0) {
-                    console.log('Live bracket data missing key players, falling back to static data:', missingPlayers);
-                    throw new Error('Live bracket data incomplete');
-                }
+            const response = await fetch('data/bracket.json');
+            if (!response.ok) {
+                throw new Error(`Failed to load bracket: ${response.status}`);
             }
-            
-            this.bracketData = liveData;
-            dataSource = 'Live';
-            console.log('Loaded live tournament data from WST API');
+            this.bracketData = await response.json();
+            console.log('Loaded static bracket data with complete tournament structure');
             this.updateDataSource(dataSource);
-        } catch (apiError) {
-            if (CONFIG.DEBUG.SHOW_API_ERRORS) {
-                console.warn('Failed to load live data, falling back to static data:', apiError);
-            }
-            
-            if (!CONFIG.API_FALLBACK_ENABLED) {
-                throw new Error('API fallback is disabled in configuration');
-            }
-            
-            try {
-                const response = await fetch('data/bracket.json');
-                if (!response.ok) {
-                    throw new Error(`Failed to load bracket: ${response.status}`);
-                }
-                this.bracketData = await response.json();
-                if (CONFIG.DEBUG.ENABLE_LOGGING) {
-                    console.log('Loaded static bracket data');
-                }
-                this.updateDataSource(dataSource);
-            } catch (error) {
-                console.error('Error loading bracket data:', error);
-                throw error;
-            }
+        } catch (error) {
+            console.error('Error loading bracket data:', error);
+            throw error;
         }
     }
 
@@ -153,6 +124,13 @@ class TournamentBracket {
     // Advanced bracket-based max points calculation
     calculateAdvancedBracketMaxPoints(players) {
         // Check if bracket data is available
+        console.log('Bracket data check:', {
+            hasBracketData: !!this.bracketData,
+            hasBracketStructure: !!(this.bracketData && this.bracketData.bracketStructure),
+            hasDraw: !!(this.bracketData && this.bracketData.draw),
+            bracketDataKeys: this.bracketData ? Object.keys(this.bracketData) : []
+        });
+        
         if (!this.bracketData || !this.bracketData.bracketStructure || !this.bracketData.draw) {
             throw new Error('Bracket data not available');
         }
