@@ -29,7 +29,7 @@ const CONFIG = {
         SEMIFINALIST: 6,
         QUARTERFINALIST: 4,
         LAST16: 2,
-        LAST32: 0,
+        LAST32: 0, // Players get 0 points for reaching Last 32
         ELIMINATED_EARLY: 0
     },
     

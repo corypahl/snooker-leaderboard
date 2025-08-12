@@ -22,6 +22,8 @@ header {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+
+
 header h1 {
     font-size: 2.5rem;
     font-weight: 700;
@@ -236,7 +238,6 @@ td:nth-child(5) {
 }
 
 .player-points {
-    font-size: 0.8rem;
     color: #4ecdc4;
     font-weight: 600;
 }
@@ -829,6 +830,27 @@ footer {
     background: rgba(255, 255, 255, 0.05);
     color: #b0b0b0;
     font-style: italic;
+}
+
+.player-slot.winner {
+    background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(78, 205, 196, 0.3);
+}
+
+.match-result {
+    margin-top: 5px;
+    padding: 3px 8px;
+    background: rgba(78, 205, 196, 0.2);
+    border-radius: 4px;
+    font-size: 0.8em;
+    text-align: center;
+}
+
+.winner-name {
+    color: #4ecdc4;
+    font-weight: bold;
 }
 
 .player-slot:hover {

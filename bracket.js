@@ -16,23 +16,17 @@ class TournamentBracket {
         }
         
         if (window.snookerLeaderboard) {
-            console.log('Leaderboard ready, initializing bracket');
             this.init();
         } else {
-            console.log('Leaderboard not available, initializing bracket with static data');
             this.init();
         }
     }
 
     async init() {
         try {
-            console.log('Bracket init: Loading bracket data...');
             await this.loadBracketData();
-            console.log('Bracket init: Bracket data loaded, loading players data...');
             await this.loadPlayersData();
-            console.log('Bracket init: Players data loaded, rendering bracket...');
             this.renderBracket();
-            console.log('Bracket init: Complete!');
         } catch (error) {
             console.error('Error initializing bracket:', error);
         }
@@ -41,19 +35,104 @@ class TournamentBracket {
     async loadBracketData() {
         let dataSource = 'Static';
         
-        // Always load static data to ensure we have complete bracket structure
-        console.log('Loading static bracket data for complete tournament structure...');
+        // Try to load live data first if API is enabled
+        if (CONFIG.API_ENABLED) {
+            try {
+    
+                
+                // First try to load from the updated API data file
+                try {
+                    const apiResponse = await fetch('data/api_draws.json');
+                    if (apiResponse.ok) {
+                        const apiData = await apiResponse.json();
+                        const transformedData = WSTFetcher.transformDrawData(apiData);
+                        
+                        // Merge with static bracket structure for complete data
+                        this.bracketData = await this.mergeLiveBracketData(transformedData);
+        
+                        
+                        dataSource = 'Live API';
+                        this.updateDataSource(dataSource);
+                        return;
+                    }
+                } catch (apiFileError) {
+                    console.warn('Failed to load from API file, trying live fetch:', apiFileError);
+                }
+                
+                // Fallback to live API fetch
+                const drawData = await WSTFetcher.fetchDrawData();
+                const transformedData = WSTFetcher.transformDrawData(drawData);
+                
+                // Merge with static bracket structure for complete data
+                this.bracketData = await this.mergeLiveBracketData(transformedData);
+
+                
+                dataSource = 'Live API';
+                this.updateDataSource(dataSource);
+                return;
+            } catch (error) {
+                console.warn('Failed to load live bracket data, falling back to static data:', error);
+            }
+        }
+
+        // Fall back to static data
+
         try {
             const response = await fetch('data/bracket.json');
             if (!response.ok) {
                 throw new Error(`Failed to load bracket: ${response.status}`);
             }
             this.bracketData = await response.json();
-            console.log('Loaded static bracket data with complete tournament structure');
+
             this.updateDataSource(dataSource);
         } catch (error) {
             console.error('Error loading bracket data:', error);
             throw error;
+        }
+    }
+
+    async mergeLiveBracketData(liveData) {
+        // Use live data directly with static structure for display
+        const staticBracket = await this.loadStaticBracketData();
+        
+        // Create merged bracket with live data as primary
+        const mergedBracket = {
+            ...staticBracket,
+            draw: liveData.draw || {},
+            rounds: liveData.rounds || staticBracket.rounds
+        };
+
+
+
+        return mergedBracket;
+    }
+
+    async loadStaticBracketData() {
+        try {
+            const response = await fetch('data/bracket.json');
+            if (!response.ok) {
+                throw new Error(`Failed to load static bracket: ${response.status}`);
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Error loading static bracket data:', error);
+            return { draw: {}, bracketStructure: {} };
+        }
+    }
+
+    updateBracketMatchResult(bracket, roundKey, match) {
+        // Update the bracket structure with match results
+        if (bracket.bracketStructure && bracket.bracketStructure[roundKey]) {
+            const roundMatches = bracket.bracketStructure[roundKey];
+            const matchIndex = roundMatches.findIndex(m => 
+                m.player1 === match.player1 || m.player2 === match.player1 ||
+                m.player1 === match.player2 || m.player2 === match.player2
+            );
+            
+            if (matchIndex !== -1) {
+                roundMatches[matchIndex].winner = match.winner;
+                roundMatches[matchIndex].status = 'Completed';
+            }
         }
     }
 
@@ -62,7 +141,7 @@ class TournamentBracket {
             // Try to use the same player data as the leaderboard if available
             if (window.snookerLeaderboard && window.snookerLeaderboard.players) {
                 this.players = window.snookerLeaderboard.players;
-                console.log('Using player data from leaderboard');
+
             } else {
                 // Fallback to static data
                 const response = await fetch('data/players.json');
@@ -70,7 +149,7 @@ class TournamentBracket {
                     throw new Error(`Failed to load players: ${response.status}`);
                 }
                 this.players = await response.json();
-                console.log('Loaded static player data for bracket');
+
             }
         } catch (error) {
             console.error('Error loading players data:', error);
@@ -80,7 +159,7 @@ class TournamentBracket {
 
     // Calculate accurate max points based on complete tournament bracket structure
     calculateAccurateMaxPoints(picks) {
-        console.log('Bracket calculating max points for picks:', picks.map(p => p ? p.name : 'null'));
+
         
         let maxPoints = 0;
         let playersStillIn = [];
@@ -92,7 +171,7 @@ class TournamentBracket {
                 return; // Skip null picks
             }
             
-            console.log(`Player ${pick.name}: status=${pick.status}, points=${pick.points}`);
+
             
             if (pick.status === 'playing') {
                 playersStillIn.push(pick);
@@ -101,22 +180,17 @@ class TournamentBracket {
             }
         });
 
-        console.log(`Players still in: ${playersStillIn.length}, Current max points: ${maxPoints}`);
 
         if (playersStillIn.length === 0) {
-            console.log('No players still in, returning current max points:', maxPoints);
             return maxPoints;
         }
 
         // Use the most sophisticated calculation method
         try {
             const advancedPoints = this.calculateAdvancedBracketMaxPoints(playersStillIn);
-            console.log('Advanced bracket calculation result:', advancedPoints);
             return maxPoints + advancedPoints;
         } catch (error) {
-            console.warn('Advanced bracket calculation failed, using fallback:', error);
             const simplePoints = this.calculateSimpleMaxPoints(playersStillIn);
-            console.log('Simple fallback calculation result:', simplePoints);
             return maxPoints + simplePoints;
         }
     }
@@ -124,12 +198,6 @@ class TournamentBracket {
     // Advanced bracket-based max points calculation
     calculateAdvancedBracketMaxPoints(players) {
         // Check if bracket data is available
-        console.log('Bracket data check:', {
-            hasBracketData: !!this.bracketData,
-            hasBracketStructure: !!(this.bracketData && this.bracketData.bracketStructure),
-            hasDraw: !!(this.bracketData && this.bracketData.draw),
-            bracketDataKeys: this.bracketData ? Object.keys(this.bracketData) : []
-        });
         
         if (!this.bracketData || !this.bracketData.bracketStructure || !this.bracketData.draw) {
             throw new Error('Bracket data not available');
@@ -138,17 +206,8 @@ class TournamentBracket {
         // Get player match positions and bracket paths
         const playerPaths = this.getPlayerBracketPaths(players);
         
-        // Debug logging
-        console.log('Players for max points calculation:', players.map(p => ({ id: p.id, name: p.name, matches: p.matches })));
-        console.log('Player paths:', playerPaths.map(pp => ({ 
-            player: pp.player.name, 
-            path: pp.path,
-            semifinal: pp.path.semifinalMatch
-        })));
-        
         // Calculate max points based on bracket conflicts
         const maxPoints = this.calculateMaxPointsFromPaths(playerPaths);
-        console.log('Calculated max points:', maxPoints);
         
         return maxPoints;
     }
@@ -175,7 +234,7 @@ class TournamentBracket {
     getPlayerPath(player) {
         // Use the player's match progression data if available
         if (player.matches) {
-            console.log(`Player ${player.name} has matches data:`, player.matches);
+            
             return {
                 last32Match: player.matches.last32.toString(),
                 last16Match: player.matches.last16,
@@ -184,7 +243,7 @@ class TournamentBracket {
                 finalMatch: player.matches.final
             };
         } else {
-            console.log(`Player ${player.name} has NO matches data`);
+            
         }
 
         // Fallback to bracket data if player doesn't have match progression
@@ -283,11 +342,7 @@ class TournamentBracket {
             }
         });
 
-        // Debug logging
-        console.log('Bracket conflicts:', {
-            semifinal1: conflicts.semifinal1.map(p => p.player.name),
-            semifinal2: conflicts.semifinal2.map(p => p.player.name)
-        });
+
 
         return conflicts;
     }
@@ -298,11 +353,7 @@ class TournamentBracket {
         const semifinal2Count = conflicts.semifinal2.length;
         const totalPlayers = semifinal1Count + semifinal2Count;
 
-        console.log('Max points calculation:', {
-            semifinal1Count,
-            semifinal2Count,
-            totalPlayers
-        });
+
 
         if (totalPlayers === 0) {
             return 0;
@@ -311,22 +362,17 @@ class TournamentBracket {
         } else if (totalPlayers === 2) {
             // Check if they're in the same semifinal (conflict) or different semifinals
             if (semifinal1Count === 2 || semifinal2Count === 2) {
-                console.log('2 players in same semifinal - max points: 20');
                 return 14 + 6; // One winner, one semi-finalist
             } else {
-                console.log('2 players in different semifinals - max points: 24');
                 return 14 + 10; // One winner, one finalist
             }
         } else if (totalPlayers === 3) {
             // Three players across two semifinals
             if (semifinal1Count === 2 && semifinal2Count === 1) {
-                console.log('3 players: 2 in semifinal1, 1 in semifinal2 - max points: 30');
                 return 14 + 10 + 6; // One winner, one finalist, one semi-finalist
             } else if (semifinal1Count === 1 && semifinal2Count === 2) {
-                console.log('3 players: 1 in semifinal1, 2 in semifinal2 - max points: 30');
                 return 14 + 10 + 6; // One winner, one finalist, one semi-finalist
             } else {
-                console.log('3 players in different semifinals - max points: 30');
                 return 14 + 10 + 6; // One winner, one finalist, one semi-finalist
             }
         } else {
@@ -665,20 +711,41 @@ class TournamentBracket {
 
     renderBracketMatches(round) {
         const matches = this.bracketData.draw[round];
-        if (!matches) return '<p>No matches available</p>';
         
-        return matches.map(match => `
-            <div class="bracket-match">
-                <div class="match-slot">
-                    <div class="player-slot ${match.player1 !== 'tbd' ? 'seeded' : 'tbd'}">
-                        ${this.getPlayerDisplayName(match.player1)}
-                    </div>
-                    <div class="player-slot ${match.player2 !== 'tbd' ? 'seeded' : 'tbd'}">
-                        ${this.getPlayerDisplayName(match.player2)}
+        if (!matches) {
+            return '<p>No matches available</p>';
+        }
+        
+        return matches.map(match => {
+            const player1Class = match.player1 !== 'tbd' ? 'seeded' : 'tbd';
+            const player2Class = match.player2 !== 'tbd' ? 'seeded' : 'tbd';
+            const winnerClass = 'winner';
+            
+            // Check if this match has a winner
+            const hasWinner = match.winner && match.winner !== null;
+            const player1IsWinner = hasWinner && match.winner === match.player1;
+            const player2IsWinner = hasWinner && match.winner === match.player2;
+            
+            return `
+                <div class="bracket-match">
+                    <div class="match-slot">
+                        <div class="player-slot ${player1Class} ${player1IsWinner ? winnerClass : ''}">
+                            ${this.getPlayerDisplayName(match.player1)}
+                            ${player1IsWinner ? ' 🏆' : ''}
+                        </div>
+                        <div class="player-slot ${player2Class} ${player2IsWinner ? winnerClass : ''}">
+                            ${this.getPlayerDisplayName(match.player2)}
+                            ${player2IsWinner ? ' 🏆' : ''}
+                        </div>
+                        ${hasWinner ? `
+                            <div class="match-result">
+                                <span class="winner-name">Winner: ${match.winner}</span>
+                            </div>
+                        ` : ''}
                     </div>
                 </div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
     }
 
     getPlayerDisplayName(playerId) {
@@ -707,7 +774,7 @@ class TournamentBracket {
     }
 
     updateDataSource(source) {
-        const dataSourceElement = document.getElementById('dataSource');
+        const dataSourceElement = document.getElementById('bracketDataSource');
         if (dataSourceElement) {
             dataSourceElement.textContent = source;
             
@@ -730,15 +797,4 @@ document.addEventListener('DOMContentLoaded', () => {
     window.tournamentBracket = new TournamentBracket();
 });
 
-// Add refresh method to TournamentBracket class
-TournamentBracket.prototype.refresh = async function() {
-    try {
-        await this.loadBracketData();
-        await this.loadPlayersData();
-        this.renderBracket();
-        console.log('Bracket data refreshed successfully');
-    } catch (error) {
-        console.error('Error refreshing bracket:', error);
-        throw error;
-    }
-}; 
+ 

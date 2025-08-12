@@ -9,7 +9,6 @@
 <body>
     <header>
         <h1>2025 Saudi Arabia Snooker Masters</h1>
-
     </header>
 
     <main>
@@ -99,6 +98,9 @@
 
         <section class="tournament-bracket">
             <h2>Tournament Bracket</h2>
+            <div class="data-source">
+                <span>Data Source: </span><span id="bracketDataSource">Loading...</span>
+            </div>
             <div id="bracketContainer" class="bracket-container">
                 <div class="loading">Loading tournament information...</div>
             </div>
@@ -116,15 +118,11 @@
     <script src="wst-fetcher.js"></script>
     <script src="leaderboard.js"></script>
     <script src="bracket.js"></script>
-    <script src="auto-refresh.js"></script>
     <script src="validate-data.js"></script>
     <script>
-        // Initialize auto-refresh manager after all components are loaded
+        // Initialize components when page loads
         document.addEventListener('DOMContentLoaded', () => {
-            // Wait a bit for all components to initialize
-            setTimeout(() => {
-                window.autoRefreshManager = new AutoRefreshManager();
-            }, 1000);
+            console.log('Page loaded - all components should initialize automatically');
         });
     </script>
 </body>

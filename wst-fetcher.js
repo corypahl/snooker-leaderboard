@@ -136,7 +136,9 @@ class WSTFetcher {
             'Round 1': 'round1',
             'Round 2': 'round2', 
             'Round 3': 'round3',
-            'Round 4': 'round4',
+            'Round 4': 'last32',  // Round 4 corresponds to Last 32
+            'Round 5': 'last32',  // Round 5 corresponds to Last 32
+            'Round 6': 'last16',  // Round 6 corresponds to Last 16
             'Last 32': 'last32',
             'Last 16': 'last16',
             'Quarter Finals': 'quarterfinals',

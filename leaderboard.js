@@ -1,141 +1,221 @@
-// Leaderboard functionality for Snooker Draft Order Contest
+/**
+ * Snooker Leaderboard Class
+ * 
+ * Manages the leaderboard display and calculations for the Snooker Draft Order Contest.
+ * Uses tournament API data to calculate points based on player progression through rounds.
+ */
 
 class SnookerLeaderboard {
     constructor() {
         this.participants = [];
-        this.players = [];
-        this.leaderboardData = [];
         this.init();
     }
 
     async init() {
-        try {
-            await this.loadData();
-            this.calculateLeaderboard();
-            this.renderLeaderboard();
-            this.updateLastUpdated();
-        } catch (error) {
-            console.error('Error initializing leaderboard:', error);
-            this.showError('Failed to load leaderboard data');
-        }
+        console.log('Initializing Snooker Leaderboard...');
+        await this.loadData();
     }
 
     async loadData() {
+        console.log('=== LEADERBOARD: Starting loadData ===');
+        
         try {
-            // Load participants data from Google Apps Script
+            // Load participants first using static method
             this.participants = await ParticipantsLoader.loadParticipants();
-
-            // Always load static data first to ensure we have complete player data
-            console.log('Loading static player data for complete dataset...');
-            const playersResponse = await fetch('data/players.json');
-            if (!playersResponse.ok) {
-                throw new Error(`Failed to load players: ${playersResponse.status}`);
+            console.log('Participants loaded:', this.participants);
+            
+            if (CONFIG.API_ENABLED) {
+                console.log('API is enabled - fetching tournament data...');
+                
+                try {
+                    // Try to fetch from local tournament data first (for testing)
+                    console.log('Attempting to load local tournament data...');
+                    const localResponse = await fetch('data/api_tournament.json');
+                    if (localResponse.ok) {
+                        const tournamentData = await localResponse.json();
+                        console.log('Local tournament data loaded:', tournamentData);
+                        
+                        if (tournamentData && tournamentData.data && tournamentData.data.attributes && tournamentData.data.attributes.matches) {
+                            console.log('Processing tournament matches from local data...');
+                            this.calculatePointsFromTournamentData(tournamentData.data.attributes.matches);
+                            return;
+                        }
+                    }
+                } catch (localError) {
+                    console.log('Local tournament data not available, trying API...');
+                }
+                
+                try {
+                    // Fetch tournament data directly from API
+                    console.log('Fetching tournament data from API...');
+                    const tournamentData = await WSTFetcher.fetchTournamentData();
+                    console.log('Tournament data fetched from API:', tournamentData);
+                    
+                    if (tournamentData && tournamentData.data && tournamentData.data.attributes && tournamentData.data.attributes.matches) {
+                        console.log('Processing tournament matches from API...');
+                        this.calculatePointsFromTournamentData(tournamentData.data.attributes.matches);
+                    } else {
+                        console.error('No valid tournament data found in API response');
+                        this.renderLeaderboard();
+                    }
+                } catch (apiError) {
+                    console.error('API fetch failed:', apiError);
+                    this.renderLeaderboard();
+                }
+            } else {
+                console.log('API is disabled - using static data');
+                this.renderLeaderboard();
             }
-            this.players = await playersResponse.json();
-            console.log('Loaded static player data with', this.players.length, 'players');
-
-            // Update data source indicator
-            this.updateDataSource('Static');
-
         } catch (error) {
             console.error('Error loading data:', error);
-            throw error;
+            this.renderLeaderboard();
         }
     }
 
-    calculateLeaderboard() {
-        // Debug: Log available player IDs and names
-        console.log('Available player IDs:', this.players.map(p => p.id).slice(0, 10));
-        console.log('Available player names:', this.players.map(p => p.name).slice(0, 10));
+    calculatePointsFromTournamentData(matches) {
+        console.log('=== LEADERBOARD: calculatePointsFromTournamentData ===');
+        console.log('Total matches:', matches.length);
         
-        this.leaderboardData = this.participants.map(participant => {
-            console.log(`Processing participant: ${participant.name} with picks:`, participant.picks);
-            const picks = participant.picks.map(pickId => {
-                // Handle null picks
-                if (pickId === null || pickId === undefined) {
-                    return null;
+        // Step 1: Group matches by round
+        const matchesByRound = this.groupMatchesByRound(matches);
+        console.log('Matches by round:', matchesByRound);
+        
+        // Step 2: Determine which players are in each round
+        const playersByRound = this.getPlayersByRound(matchesByRound);
+        console.log('Players by round:', playersByRound);
+        
+        // Step 3: Calculate points for each participant based on their picks
+        this.calculateParticipantPoints(playersByRound);
+        
+        // Step 4: Render the leaderboard
+        this.renderLeaderboard();
+    }
+
+    groupMatchesByRound(matches) {
+        const matchesByRound = {};
+        
+        matches.forEach(match => {
+            const round = match.round;
+            if (!matchesByRound[round]) {
+                matchesByRound[round] = [];
+            }
+            matchesByRound[round].push(match);
+        });
+        
+        return matchesByRound;
+    }
+
+    getPlayersByRound(matchesByRound) {
+        const playersByRound = {};
+        
+        // Process rounds in order (Round 1, Round 2, Round 3, etc.)
+        const roundOrder = ['Round 1', 'Round 2', 'Round 3', 'Round 4', 'Round 5', 'Round 6', 'Quarter Finals', 'Semi Finals', 'Final'];
+        
+        roundOrder.forEach(roundName => {
+            if (matchesByRound[roundName]) {
+                const playersInRound = new Set();
+                
+                matchesByRound[roundName].forEach(match => {
+                    // Check if both players are available (not null)
+                    if (!match.homePlayer || !match.awayPlayer) {
+                        console.log(`Skipping match with null players: ${match.name || 'Unknown match'}`);
+                        return; // Skip this match
+                    }
+                    
+                    // Add both players to the round
+                    const homePlayerName = `${match.homePlayer.firstName} ${match.homePlayer.surname}`;
+                    const awayPlayerName = `${match.awayPlayer.firstName} ${match.awayPlayer.surname}`;
+                    
+                    playersInRound.add(homePlayerName);
+                    playersInRound.add(awayPlayerName);
+                    
+                    // If match is completed, determine winner and loser
+                    if (match.status === 'Completed') {
+                        const winner = match.homePlayerScore > match.awayPlayerScore ? homePlayerName : awayPlayerName;
+                        const loser = match.homePlayerScore > match.awayPlayerScore ? awayPlayerName : homePlayerName;
+                        
+                        // Mark loser as eliminated in this round
+                        if (!playersByRound.eliminated) {
+                            playersByRound.eliminated = {};
+                        }
+                        playersByRound.eliminated[loser] = roundName;
+                    }
+                });
+                
+                playersByRound[roundName] = Array.from(playersInRound);
+            }
+        });
+        
+        return playersByRound;
+    }
+
+    calculateParticipantPoints(playersByRound) {
+        console.log('=== LEADERBOARD: calculateParticipantPoints ===');
+        console.log('Players by round:', playersByRound);
+        
+        // Store playersByRound data for use in rendering
+        this.playersByRound = playersByRound;
+        
+        // Round to points mapping
+        const roundPoints = {
+            'Round 1': 0,
+            'Round 2': 0,
+            'Round 3': 0,
+            'Round 4': 0,  // Last 32
+            'Round 5': 0,  // Last 32
+            'Round 6': 2,  // Last 16
+            'Quarter Finals': 4,
+            'Semi Finals': 6,
+            'Final': 10,
+            'Winner': 14
+        };
+        
+        this.participants.forEach(participant => {
+            console.log(`Processing participant: ${participant.name}`);
+            participant.totalPoints = 0;
+            
+            participant.picks.forEach(pick => {
+                console.log(`  Processing pick: ${pick}`);
+                let playerPoints = 0;
+                let playerStatus = 'Eliminated';
+                let eliminatedIn = null;
+                
+                // Check if player is eliminated
+                if (playersByRound.eliminated && playersByRound.eliminated[pick]) {
+                    eliminatedIn = playersByRound.eliminated[pick];
+                    playerPoints = roundPoints[eliminatedIn] || 0;
+                    console.log(`    ${pick} eliminated in ${eliminatedIn}, points: ${playerPoints}`);
+                } else {
+                    // Player is still active, find their highest round
+                    const roundOrder = ['Round 1', 'Round 2', 'Round 3', 'Round 4', 'Round 5', 'Round 6', 'Quarter Finals', 'Semi Finals', 'Final'];
+                    
+                    for (let i = roundOrder.length - 1; i >= 0; i--) {
+                        const round = roundOrder[i];
+                        if (playersByRound[round] && playersByRound[round].includes(pick)) {
+                            playerPoints = roundPoints[round] || 0;
+                            playerStatus = 'Active';
+                            console.log(`    ${pick} active in ${round}, points: ${playerPoints}`);
+                            break;
+                        }
+                    }
                 }
                 
-                // Simple name-based lookup (case-insensitive)
-                const player = this.players.find(p => 
-                    p.name && p.name.toLowerCase() === pickId.toLowerCase()
-                );
-                
-                if (!player) {
-                    console.log(`Player not found: ${pickId}`);
-                    // Return a fallback object with the original name for display
-                    return { name: pickId, points: 0, status: 'unknown', id: pickId };
-                }
-                return player;
+                // Update participant's total points
+                participant.totalPoints += playerPoints;
+                console.log(`    ${pick} contributes ${playerPoints} points to ${participant.name}'s total`);
             });
-
-            const totalPoints = picks.reduce((sum, pick) => {
-                // Handle null picks in points calculation
-                if (!pick || pick === null) {
-                    return sum;
-                }
-                return sum + (pick.points || 0);
-            }, 0);
             
-            // Use bracket-based max points calculation if available
-            let maxPoints;
-            if (window.tournamentBracket && window.tournamentBracket.bracketData) {
-                console.log(`Using bracket-based max points calculation for ${participant.name}`);
-                maxPoints = window.tournamentBracket.calculateAccurateMaxPoints(picks);
-            } else {
-                console.log(`Using simple max points calculation for ${participant.name} (bracket not available)`);
-                // Fallback to simple calculation
-                maxPoints = this.calculateSimpleMaxPoints(picks);
-            }
-            
-            console.log(`${participant.name}: totalPoints=${totalPoints}, maxPoints=${maxPoints}`);
-
-            return {
-                ...participant,
-                picks,
-                totalPoints,
-                maxPoints
-            };
-        });
-
-        // Sort by max points descending
-        this.leaderboardData.sort((a, b) => b.maxPoints - a.maxPoints);
-    }
-
-
-
-    // Fallback simple max points calculation
-    calculateSimpleMaxPoints(picks) {
-        let maxPoints = 0;
-        let playersStillIn = 0;
-        
-        picks.forEach(pick => {
-            // Handle null picks
-            if (!pick || pick === null) {
-                return; // Skip null picks
-            }
-            
-            if (pick.status === 'playing') {
-                playersStillIn++;
-            } else {
-                maxPoints += pick.points;
-            }
+            console.log(`  ${participant.name} total points: ${participant.totalPoints}`);
         });
         
-        if (playersStillIn > 0) {
-            if (playersStillIn === 1) {
-                maxPoints += 14;
-            } else if (playersStillIn === 2) {
-                maxPoints += 14 + 10;
-            } else {
-                maxPoints += 14 + 10 + (6 * (playersStillIn - 2));
-            }
-        }
+        // Sort participants by total points (descending)
+        this.participants.sort((a, b) => b.totalPoints - a.totalPoints);
         
-        return maxPoints;
+        console.log('Final participant points:', this.participants.map(p => ({ name: p.name, points: p.totalPoints })));
     }
 
     renderLeaderboard() {
+        console.log('Rendering leaderboard...');
         const tbody = document.getElementById('leaderboardBody');
         
         if (!tbody) {
@@ -143,122 +223,172 @@ class SnookerLeaderboard {
             return;
         }
 
+        // Get participants from the loader
+        const participants = this.participants;
+        
+        if (!participants || participants.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" class="loading">Loading participants...</td></tr>';
+            return;
+        }
+
         tbody.innerHTML = '';
 
-        this.leaderboardData.forEach((participant, index) => {
+        participants.forEach((participant, index) => {
             const row = document.createElement('tr');
+            const rank = index + 1;
+            const points = participant.totalPoints || 0;
             
-            // Rank (with tie handling)
-            const rank = this.getRank(index);
+            // Add CSS classes for better styling
+            row.className = 'leaderboard-row';
+            
+            // Debug: Log what we're about to render
+            console.log(`Rendering row ${rank}: ${participant.name} - Points: ${points}`);
+            
+            // Create detailed pick cells with status icons and points
+            const pick1Html = this.renderPlayerPick(participant.picks[0], this.playersByRound);
+            const pick2Html = this.renderPlayerPick(participant.picks[1], this.playersByRound);
+            const pick3Html = this.renderPlayerPick(participant.picks[2], this.playersByRound);
+            
+            // Calculate max points for this participant
+            const maxPoints = this.calculateMaxPoints(participant.picks);
+            
             row.innerHTML = `
-                <td>${rank}</td>
-                <td>${participant.name}</td>
-                <td>${this.renderPlayerPick(participant.picks[0])}</td>
-                <td>${this.renderPlayerPick(participant.picks[1])}</td>
-                <td>${this.renderPlayerPick(participant.picks[2])}</td>
-                <td>${participant.totalPoints}</td>
-                <td>${participant.maxPoints}</td>
+                <td class="rank">${rank}</td>
+                <td class="participant">${participant.name}</td>
+                <td class="pick">${pick1Html}</td>
+                <td class="pick">${pick2Html}</td>
+                <td class="pick">${pick3Html}</td>
+                <td class="points">${points}</td>
+                <td class="max-points">${maxPoints}</td>
             `;
             
             tbody.appendChild(row);
         });
+        
+        console.log(`Rendered ${participants.length} participants`);
     }
 
-    renderPlayerPick(player) {
-        // Handle null/undefined picks
-        if (!player || player === null) {
+    renderPlayerPick(playerName, playersByRound) {
+        if (!playerName) {
             return '<span class="no-pick">No Pick</span>';
         }
 
-        if (!CONFIG.SHOW_PLAYER_PICKS) {
-            return '<span class="pick-hidden">👁️ Hidden</span>';
-        }
+        // Determine player status and points
+        let statusIcon = '🎱'; // Default: still playing
+        let statusClass = 'active';
+        let playerPoints = 0;
+        let eliminatedIn = null;
 
-        const statusIcon = this.getStatusIcon(player.status);
-        const isEliminated = player.status === 'eliminated' || player.status === 'eliminated_early';
-        
-        return `
-            <span class="status-icon">${statusIcon}</span>
-            <span class="player-name">${player.name}</span>
-            ${isEliminated ? `<span class="player-points">(${player.points})</span>` : ''}
-        `;
-    }
-
-    getStatusIcon(status) {
-        switch (status) {
-            case 'playing':
-                return '🎱';
-            case 'eliminated':
-            case 'eliminated_early':
-                return '❌';
-            case 'unknown':
-                return '❓';
-            default:
-                return '❓';
-        }
-    }
-
-    getRank(index) {
-        // Handle ties - same rank for same max points
-        if (index === 0) return 1;
-        
-        const currentMaxPoints = this.leaderboardData[index].maxPoints;
-        const previousMaxPoints = this.leaderboardData[index - 1].maxPoints;
-        
-        if (currentMaxPoints === previousMaxPoints) {
-            // Find the first occurrence of this max score
-            for (let i = 0; i < index; i++) {
-                if (this.leaderboardData[i].maxPoints === currentMaxPoints) {
-                    return i + 1;
-                }
-            }
-        }
-        
-        return index + 1;
-    }
-
-    updateLastUpdated() {
-        const lastUpdatedElement = document.getElementById('lastUpdated');
-        if (lastUpdatedElement) {
-            const now = new Date();
-            lastUpdatedElement.textContent = now.toLocaleString();
-        }
-    }
-
-    updateDataSource(source) {
-        const dataSourceElement = document.getElementById('dataSource');
-        if (dataSourceElement) {
-            dataSourceElement.textContent = source;
+        // Check if player is eliminated
+        if (playersByRound.eliminated && playersByRound.eliminated[playerName]) {
+            eliminatedIn = playersByRound.eliminated[playerName];
+            statusIcon = '❌';
+            statusClass = 'eliminated';
             
-            // Add visual styling based on data source
-            const dataSourceContainer = dataSourceElement.closest('.data-source');
-            if (dataSourceContainer) {
-                dataSourceContainer.classList.remove('live', 'static');
-                if (source.includes('Live')) {
-                    dataSourceContainer.classList.add('live');
-                } else {
-                    dataSourceContainer.classList.add('static');
+            // Get points for the round they were eliminated in
+            const roundPoints = {
+                'Round 1': 0,
+                'Round 2': 0,
+                'Round 3': 0,
+                'Round 4': 0,  // Last 32
+                'Round 5': 0,  // Last 32
+                'Round 6': 2,  // Last 16
+                'Quarter Finals': 4,
+                'Semi Finals': 6,
+                'Final': 10,
+                'Winner': 14
+            };
+            playerPoints = roundPoints[eliminatedIn] || 0;
+        } else {
+            // Player is still active, find their current round and points
+            const roundOrder = ['Round 1', 'Round 2', 'Round 3', 'Round 4', 'Round 5', 'Round 6', 'Quarter Finals', 'Semi Finals', 'Final'];
+            const roundPoints = {
+                'Round 1': 0,
+                'Round 2': 0,
+                'Round 3': 0,
+                'Round 4': 0,  // Last 32
+                'Round 5': 0,  // Last 32
+                'Round 6': 2,  // Last 16
+                'Quarter Finals': 4,
+                'Semi Finals': 6,
+                'Final': 10,
+                'Winner': 14
+            };
+            
+            for (let i = roundOrder.length - 1; i >= 0; i--) {
+                const round = roundOrder[i];
+                if (playersByRound[round] && playersByRound[round].includes(playerName)) {
+                    playerPoints = roundPoints[round] || 0;
+                    break;
                 }
             }
         }
-    }
 
-    showError(message) {
-        const tbody = document.getElementById('leaderboardBody');
-        if (tbody) {
-                    tbody.innerHTML = `
-            <tr>
-                <td colspan="7" class="loading" style="color: #ff6b6b;">
-                    ${message}
-                </td>
-            </tr>
+        return `
+            <div class="player-pick ${statusClass}">
+                <span class="status-icon">${statusIcon}</span>
+                <span class="player-name">${playerName}</span>
+                <span class="player-points">${playerPoints}</span>
+            </div>
         `;
-        }
     }
 
+    calculateMaxPoints(picks) {
+        if (!picks || picks.length === 0) {
+            return 0;
+        }
 
+        let maxPoints = 0;
+        let playersStillIn = [];
 
+        // First pass: collect players still in and add earned points
+        picks.forEach(pick => {
+            if (!pick) {
+                return; // Skip null picks
+            }
 
+            // Check if player is eliminated
+            if (this.playersByRound.eliminated && this.playersByRound.eliminated[pick]) {
+                const eliminatedIn = this.playersByRound.eliminated[pick];
+                const roundPoints = {
+                    'Round 1': 0,
+                    'Round 2': 0,
+                    'Round 3': 0,
+                    'Round 4': 0,  // Last 32
+                    'Round 5': 0,  // Last 32
+                    'Round 6': 2,  // Last 16
+                    'Quarter Finals': 4,
+                    'Semi Finals': 6,
+                    'Final': 10,
+                    'Winner': 14
+                };
+                maxPoints += roundPoints[eliminatedIn] || 0;
+            } else {
+                // Player is still active
+                playersStillIn.push(pick);
+            }
+        });
+
+        // If no players still in, return current points
+        if (playersStillIn.length === 0) {
+            return maxPoints;
+        }
+
+        // Calculate potential max points for remaining players
+        // Simple calculation: assume best possible outcome
+        if (playersStillIn.length === 1) {
+            maxPoints += 14; // Can win
+        } else if (playersStillIn.length === 2) {
+            maxPoints += 14 + 10; // One winner, one finalist
+        } else if (playersStillIn.length === 3) {
+            maxPoints += 14 + 10 + 6; // One winner, one finalist, one semi-finalist
+        } else {
+            // More than 3 players - calculate optimal scenario
+            maxPoints += 14 + 10 + 6 + 6; // Winner, finalist, two semi-finalists
+        }
+
+        return maxPoints;
+    }
 }
 
 // Initialize the leaderboard when the page loads
