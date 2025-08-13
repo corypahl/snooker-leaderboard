@@ -28,7 +28,22 @@ class SnookerLeaderboard {
                 console.log('API is enabled - fetching tournament data...');
                 
                 try {
-                    // Try to fetch from local tournament data first (for testing)
+                    // Always try to fetch fresh tournament data first
+                    console.log('Fetching fresh tournament data from API...');
+                    const tournamentData = await WSTFetcher.fetchTournamentData();
+                    console.log('Fresh tournament data loaded:', tournamentData);
+                    
+                    if (tournamentData && tournamentData.data && tournamentData.data.attributes && tournamentData.data.attributes.matches) {
+                        console.log('Processing tournament matches from fresh API data...');
+                        this.calculatePointsFromTournamentData(tournamentData.data.attributes.matches);
+                        return;
+                    }
+                } catch (apiError) {
+                    console.log('API fetch failed, trying local data...', apiError);
+                }
+                
+                try {
+                    // Fallback to local tournament data
                     console.log('Attempting to load local tournament data...');
                     const localResponse = await fetch('data/api_tournament.json');
                     if (localResponse.ok) {
@@ -42,7 +57,7 @@ class SnookerLeaderboard {
                         }
                     }
                 } catch (localError) {
-                    console.log('Local tournament data not available, trying API...');
+                    console.log('Local tournament data not available...');
                 }
                 
                 try {
@@ -129,6 +144,11 @@ class SnookerLeaderboard {
                     playersInRound.add(homePlayerName);
                     playersInRound.add(awayPlayerName);
                     
+                    // Debug: Log Mark Williams specifically
+                    if (homePlayerName === 'Mark Williams' || awayPlayerName === 'Mark Williams') {
+                        console.log(`🔍 Found Mark Williams in ${roundName}: ${match.name}, status: ${match.status}, home: ${match.homePlayerScore}, away: ${match.awayPlayerScore}`);
+                    }
+                    
                     // If match is completed, determine winner and loser
                     if (match.status === 'Completed') {
                         const winner = match.homePlayerScore > match.awayPlayerScore ? homePlayerName : awayPlayerName;
@@ -139,10 +159,20 @@ class SnookerLeaderboard {
                             playersByRound.eliminated = {};
                         }
                         playersByRound.eliminated[loser] = roundName;
+                        
+                        // Debug: Log eliminations for Mark Williams
+                        if (loser === 'Mark Williams') {
+                            console.log(`❌ Mark Williams eliminated in ${roundName}`);
+                        }
                     }
                 });
                 
                 playersByRound[roundName] = Array.from(playersInRound);
+                
+                // Debug: Log all players in this round
+                if (playersByRound[roundName].includes('Mark Williams')) {
+                    console.log(`✅ Mark Williams found in ${roundName} players:`, playersByRound[roundName]);
+                }
             }
         });
         
@@ -176,6 +206,12 @@ class SnookerLeaderboard {
             
             participant.picks.forEach(pick => {
                 console.log(`  Processing pick: ${pick}`);
+                
+                // Debug: Check if this is Mark Williams
+                if (pick === 'Mark Williams') {
+                    console.log(`🎯 Found Mark Williams in ${participant.name}'s picks!`);
+                }
+                
                 let playerPoints = 0;
                 let playerStatus = 'Eliminated';
                 let eliminatedIn = null;
@@ -198,6 +234,16 @@ class SnookerLeaderboard {
                             break;
                         }
                     }
+                    
+                    // Debug: If Mark Williams wasn't found, log what rounds are available
+                    if (pick === 'Mark Williams' && playerPoints === 0) {
+                        console.log(`🔍 Mark Williams not found in any round. Available rounds:`, Object.keys(playersByRound));
+                        Object.keys(playersByRound).forEach(round => {
+                            if (playersByRound[round] && playersByRound[round].length > 0) {
+                                console.log(`  ${round}:`, playersByRound[round]);
+                            }
+                        });
+                    }
                 }
                 
                 // Update participant's total points
@@ -212,6 +258,38 @@ class SnookerLeaderboard {
         this.participants.sort((a, b) => b.totalPoints - a.totalPoints);
         
         console.log('Final participant points:', this.participants.map(p => ({ name: p.name, points: p.totalPoints })));
+    }
+
+    // Method to refresh leaderboard data
+    async refreshData() {
+        console.log('🔄 Refreshing leaderboard data...');
+        await this.loadData();
+    }
+
+    // Calculate proper ranks accounting for ties
+    calculateRanks(participants) {
+        const ranks = [];
+        let currentRank = 1;
+        let currentPoints = null;
+        let participantsAtCurrentRank = 0;
+
+        participants.forEach((participant, index) => {
+            const points = participant.totalPoints || 0;
+            
+            // If this is a new point value, update the rank
+            if (points !== currentPoints) {
+                currentRank = index + 1;
+                currentPoints = points;
+                participantsAtCurrentRank = 1;
+            } else {
+                // Same points as previous participant - this is a tie
+                participantsAtCurrentRank++;
+            }
+            
+            ranks.push(currentRank);
+        });
+
+        return ranks;
     }
 
     renderLeaderboard() {
@@ -233,9 +311,12 @@ class SnookerLeaderboard {
 
         tbody.innerHTML = '';
 
+        // Calculate proper ranks accounting for ties
+        const ranks = this.calculateRanks(participants);
+
         participants.forEach((participant, index) => {
             const row = document.createElement('tr');
-            const rank = index + 1;
+            const rank = ranks[index];
             const points = participant.totalPoints || 0;
             
             // Add CSS classes for better styling
@@ -394,4 +475,42 @@ class SnookerLeaderboard {
 // Initialize the leaderboard when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     window.snookerLeaderboard = new SnookerLeaderboard();
-}); 
+});
+
+// Global refresh function for the leaderboard refresh button
+async function refreshLeaderboardData() {
+    const refreshBtn = document.getElementById('refreshLeaderboardBtn');
+    if (refreshBtn) {
+        refreshBtn.disabled = true;
+        refreshBtn.textContent = '🔄 Updating...';
+    }
+    
+    try {
+        console.log('🔄 Manual leaderboard refresh requested...');
+        
+        // Refresh the leaderboard data
+        if (window.snookerLeaderboard) {
+            await window.snookerLeaderboard.refreshData();
+        }
+        
+        // Show success message
+        if (refreshBtn) {
+            refreshBtn.textContent = '✅ Updated!';
+            setTimeout(() => {
+                refreshBtn.disabled = false;
+                refreshBtn.textContent = '🔄 Refresh Leaderboard';
+            }, 2000);
+        }
+    } catch (error) {
+        console.error('Error refreshing leaderboard data:', error);
+        
+        // Show error message
+        if (refreshBtn) {
+            refreshBtn.textContent = '❌ Error';
+            setTimeout(() => {
+                refreshBtn.disabled = false;
+                refreshBtn.textContent = '🔄 Refresh Leaderboard';
+            }, 3000);
+        }
+    }
+} 

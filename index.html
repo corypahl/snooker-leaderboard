@@ -13,7 +13,12 @@
 
     <main>
         <section class="leaderboard-section">
-            <h2>Leaderboard</h2>
+            <div class="leaderboard-header">
+                <h2>Leaderboard</h2>
+                <button id="refreshLeaderboardBtn" class="refresh-btn" onclick="refreshLeaderboardData()">
+                    🔄 Refresh Leaderboard
+                </button>
+            </div>
             <div class="table-container">
                 <table id="leaderboardTable">
                     <thead>

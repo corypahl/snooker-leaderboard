@@ -762,11 +762,6 @@ class TournamentBracket {
                             ${this.getPlayerDisplayName(match.player2)}
                             ${player2IsWinner ? ' 🏆' : ''}
                         </div>
-                        ${hasWinner ? `
-                            <div class="match-result">
-                                <span class="winner-name">Winner: ${match.winner}</span>
-                            </div>
-                        ` : ''}
                     </div>
                 </div>
             `;

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Test</title>
+</head>
+<body>
+    <h1>Debug Test</h1>
+    <div id="output"></div>
+
+    <script src="config.js"></script>
+    <script src="participants-loader.js"></script>
+    <script src="wst-fetcher.js"></script>
+    <script>
+        async function debugData() {
+            const output = document.getElementById('output');
+            
+            try {
+                // Load participants
+                console.log('Loading participants...');
+                const participants = await ParticipantsLoader.loadParticipants();
+                console.log('Participants:', participants);
+                
+                // Check for Mark Williams
+                participants.forEach(participant => {
+                    participant.picks.forEach((pick, index) => {
+                        if (pick && pick.includes('Williams')) {
+                            console.log(`Found Williams in ${participant.name}'s pick ${index + 1}: "${pick}"`);
+                            output.innerHTML += `<p>🎯 Found Williams in ${participant.name}'s pick ${index + 1}: "${pick}"</p>`;
+                        }
+                    });
+                });
+                
+                // Load tournament data
+                console.log('Loading tournament data...');
+                const tournamentData = await fetch('data/api_tournament.json').then(r => r.json());
+                console.log('Tournament data loaded');
+                
+                // Check for Mark Williams in tournament data
+                const matches = tournamentData.data.attributes.matches;
+                matches.forEach(match => {
+                    if (match.name && match.name.includes('Williams')) {
+                        console.log(`Found Williams match: ${match.name}, Round: ${match.round}, Status: ${match.status}`);
+                        output.innerHTML += `<p>🏆 Found Williams match: ${match.name}, Round: ${match.round}, Status: ${match.status}</p>`;
+                    }
+                });
+                
+            } catch (error) {
+                console.error('Error:', error);
+                output.innerHTML += `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        }
+        
+        debugData();
+    </script>
+</body>
+</html>

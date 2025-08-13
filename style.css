@@ -159,6 +159,47 @@ section h2 {
     text-align: center;
 }
 
+/* Leaderboard header */
+.leaderboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.leaderboard-header h2 {
+    margin-bottom: 0;
+}
+
+.leaderboard-header .refresh-btn {
+    background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.leaderboard-header .refresh-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.leaderboard-header .refresh-btn:active {
+    transform: translateY(0);
+}
+
+.leaderboard-header .refresh-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 /* Table styles */
 .table-container {
     overflow-x: auto;
