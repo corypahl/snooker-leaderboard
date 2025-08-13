@@ -255,7 +255,7 @@ td:first-child {
 /* Total points column */
 td:nth-child(6) {
     font-weight: 700;
-    color: #ff6b6b;
+    color: #ffffff;
     text-align: center;
     font-size: 0.95rem; /* Match the table's base font size */
 }
@@ -263,6 +263,7 @@ td:nth-child(6) {
 /* Override the .points class when used in table cells */
 td.points {
     font-size: 0.95rem !important; /* Override the 2rem font-size from .points class */
+    color: #ffffff !important; /* Ensure total points are white */
 }
 
 /* Max points column */
@@ -283,6 +284,34 @@ td:nth-child(5) {
 
 .player-name {
     margin-left: 0.5rem;
+}
+
+/* Player status styling - using font color instead of icons */
+.player-pick.eliminated .player-name {
+    color: #ff6b6b;
+    text-decoration: line-through;
+}
+
+.player-pick.active .player-name {
+    color: #ffffff;
+}
+
+/* Participant with all picks eliminated */
+.leaderboard-row.all-eliminated {
+    color: #888888;
+}
+
+.leaderboard-row.all-eliminated .participant {
+    color: #888888;
+}
+
+.leaderboard-row.all-eliminated .player-name {
+    color: #888888;
+}
+
+.leaderboard-row.all-eliminated .player-pick.eliminated .player-name {
+    color: #ff6b6b;
+    text-decoration: line-through;
 }
 
 .status-icon {

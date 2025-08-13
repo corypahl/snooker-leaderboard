@@ -319,11 +319,17 @@ class SnookerLeaderboard {
             const rank = ranks[index];
             const points = participant.totalPoints || 0;
             
+            // Check if all picks are eliminated
+            const allPicksEliminated = this.areAllPicksEliminated(participant.picks);
+            
             // Add CSS classes for better styling
             row.className = 'leaderboard-row';
+            if (allPicksEliminated) {
+                row.className += ' all-eliminated';
+            }
             
             // Debug: Log what we're about to render
-            console.log(`Rendering row ${rank}: ${participant.name} - Points: ${points}`);
+            console.log(`Rendering row ${rank}: ${participant.name} - Points: ${points} - All eliminated: ${allPicksEliminated}`);
             
             // Create detailed pick cells with status icons and points
             const pick1Html = this.renderPlayerPick(participant.picks[0], this.playersByRound);
@@ -355,7 +361,6 @@ class SnookerLeaderboard {
         }
 
         // Determine player status and points
-        let statusIcon = '🎱'; // Default: still playing
         let statusClass = 'active';
         let playerPoints = 0;
         let eliminatedIn = null;
@@ -363,7 +368,6 @@ class SnookerLeaderboard {
         // Check if player is eliminated
         if (playersByRound.eliminated && playersByRound.eliminated[playerName]) {
             eliminatedIn = playersByRound.eliminated[playerName];
-            statusIcon = '❌';
             statusClass = 'eliminated';
             
             // Get points for the round they were eliminated in
@@ -407,7 +411,6 @@ class SnookerLeaderboard {
 
         return `
             <div class="player-pick ${statusClass}">
-                <span class="status-icon">${statusIcon}</span>
                 <span class="player-name">${playerName}</span>
                 <span class="player-points">${playerPoints}</span>
             </div>
@@ -469,6 +472,22 @@ class SnookerLeaderboard {
         }
 
         return maxPoints;
+    }
+
+    areAllPicksEliminated(picks) {
+        if (!picks || picks.length === 0) {
+            return true; // No picks = all eliminated
+        }
+
+        // Check if all non-null picks are eliminated
+        const validPicks = picks.filter(pick => pick !== null && pick !== undefined);
+        if (validPicks.length === 0) {
+            return true; // No valid picks = all eliminated
+        }
+
+        return validPicks.every(pick => 
+            this.playersByRound.eliminated && this.playersByRound.eliminated[pick]
+        );
     }
 }
 
