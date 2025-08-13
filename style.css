@@ -216,6 +216,12 @@ td:nth-child(6) {
     font-weight: 700;
     color: #ff6b6b;
     text-align: center;
+    font-size: 0.95rem; /* Match the table's base font size */
+}
+
+/* Override the .points class when used in table cells */
+td.points {
+    font-size: 0.95rem !important; /* Override the 2rem font-size from .points class */
 }
 
 /* Max points column */
@@ -223,6 +229,7 @@ td:last-child {
     font-weight: 600;
     color: #45b7d1;
     text-align: center;
+    font-size: 0.95rem; /* Match the table's base font size */
 }
 
 /* Player pick columns */
