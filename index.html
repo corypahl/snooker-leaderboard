@@ -98,8 +98,13 @@
 
         <section class="tournament-bracket">
             <h2>Tournament Bracket</h2>
-            <div class="data-source">
-                <span>Data Source: </span><span id="bracketDataSource">Loading...</span>
+            <div class="bracket-header">
+                <div class="data-source">
+                    <span>Data Source: </span><span id="bracketDataSource">Loading...</span>
+                </div>
+                <button id="refreshBracketBtn" class="refresh-btn" onclick="refreshBracketData()">
+                    🔄 Refresh Data
+                </button>
             </div>
             <div id="bracketContainer" class="bracket-container">
                 <div class="loading">Loading tournament information...</div>

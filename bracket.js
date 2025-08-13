@@ -24,23 +24,49 @@ class TournamentBracket {
 
     async init() {
         try {
+            // Show loading state while fetching data
+            this.showLoadingState();
+            
             await this.loadBracketData();
             await this.loadPlayersData();
             this.renderBracket();
         } catch (error) {
             console.error('Error initializing bracket:', error);
+            // Show error state
+            const bracketContainer = document.getElementById('bracketContainer');
+            if (bracketContainer) {
+                bracketContainer.innerHTML = `
+                    <div class="error-state">
+                        <p>❌ Error loading tournament data. Please try refreshing the page.</p>
+                    </div>
+                `;
+            }
         }
     }
 
     async loadBracketData() {
         let dataSource = 'Static';
         
-        // Try to load live data first if API is enabled
+        // Always try to load live data first if API is enabled
         if (CONFIG.API_ENABLED) {
             try {
-    
+                console.log('🔄 Fetching live tournament data from WST API...');
                 
-                // First try to load from the updated API data file
+                // Always try live API fetch first for fresh data
+                const drawData = await WSTFetcher.fetchDrawData();
+                const transformedData = WSTFetcher.transformDrawData(drawData);
+                
+                // Merge with static bracket structure for complete data
+                this.bracketData = await this.mergeLiveBracketData(transformedData);
+                
+                dataSource = 'Live API';
+                this.updateDataSource(dataSource);
+                console.log('✅ Live tournament data loaded successfully');
+                return;
+            } catch (error) {
+                console.warn('Failed to load live bracket data, trying local API file:', error);
+                
+                // Fallback to local API file if live fetch fails
                 try {
                     const apiResponse = await fetch('data/api_draws.json');
                     if (apiResponse.ok) {
@@ -49,34 +75,20 @@ class TournamentBracket {
                         
                         // Merge with static bracket structure for complete data
                         this.bracketData = await this.mergeLiveBracketData(transformedData);
-        
                         
-                        dataSource = 'Live API';
+                        dataSource = 'Local API File';
                         this.updateDataSource(dataSource);
+                        console.log('✅ Local API file loaded successfully');
                         return;
                     }
                 } catch (apiFileError) {
-                    console.warn('Failed to load from API file, trying live fetch:', apiFileError);
+                    console.warn('Failed to load from local API file, falling back to static data:', apiFileError);
                 }
-                
-                // Fallback to live API fetch
-                const drawData = await WSTFetcher.fetchDrawData();
-                const transformedData = WSTFetcher.transformDrawData(drawData);
-                
-                // Merge with static bracket structure for complete data
-                this.bracketData = await this.mergeLiveBracketData(transformedData);
-
-                
-                dataSource = 'Live API';
-                this.updateDataSource(dataSource);
-                return;
-            } catch (error) {
-                console.warn('Failed to load live bracket data, falling back to static data:', error);
             }
         }
 
-        // Fall back to static data
-
+        // Final fallback to static data
+        console.log('📁 Loading static bracket data...');
         try {
             const response = await fetch('data/bracket.json');
             if (!response.ok) {
@@ -85,6 +97,7 @@ class TournamentBracket {
             this.bracketData = await response.json();
 
             this.updateDataSource(dataSource);
+            console.log('✅ Static bracket data loaded successfully');
         } catch (error) {
             console.error('Error loading bracket data:', error);
             throw error;
@@ -634,6 +647,18 @@ class TournamentBracket {
         this.populateRoundsInfo();
     }
 
+    showLoadingState() {
+        const bracketContainer = document.getElementById('bracketContainer');
+        if (bracketContainer) {
+            bracketContainer.innerHTML = `
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p>🔄 Fetching latest tournament data...</p>
+                </div>
+            `;
+        }
+    }
+
     renderRoundsInfo() {
         const rounds = this.bracketData.rounds;
         return Object.entries(rounds).map(([key, round]) => `
@@ -776,14 +801,17 @@ class TournamentBracket {
     updateDataSource(source) {
         const dataSourceElement = document.getElementById('bracketDataSource');
         if (dataSourceElement) {
-            dataSourceElement.textContent = source;
+            const timestamp = new Date().toLocaleTimeString();
+            dataSourceElement.textContent = `${source} (${timestamp})`;
             
             // Add visual styling based on data source
             const dataSourceContainer = dataSourceElement.closest('.data-source');
             if (dataSourceContainer) {
-                dataSourceContainer.classList.remove('live', 'static');
-                if (source.includes('Live')) {
+                dataSourceContainer.classList.remove('live', 'static', 'local');
+                if (source.includes('Live API')) {
                     dataSourceContainer.classList.add('live');
+                } else if (source.includes('Local API File')) {
+                    dataSourceContainer.classList.add('local');
                 } else {
                     dataSourceContainer.classList.add('static');
                 }
@@ -796,5 +824,45 @@ class TournamentBracket {
 document.addEventListener('DOMContentLoaded', () => {
     window.tournamentBracket = new TournamentBracket();
 });
+
+// Global refresh function for the refresh button
+async function refreshBracketData() {
+    const refreshBtn = document.getElementById('refreshBracketBtn');
+    if (refreshBtn) {
+        refreshBtn.disabled = true;
+        refreshBtn.textContent = '🔄 Updating...';
+    }
+    
+    try {
+        console.log('🔄 Manual refresh requested...');
+        
+        // Reinitialize the bracket with fresh data
+        if (window.tournamentBracket) {
+            await window.tournamentBracket.loadBracketData();
+            await window.tournamentBracket.loadPlayersData();
+            window.tournamentBracket.renderBracket();
+        }
+        
+        // Show success message
+        if (refreshBtn) {
+            refreshBtn.textContent = '✅ Updated!';
+            setTimeout(() => {
+                refreshBtn.disabled = false;
+                refreshBtn.textContent = '🔄 Refresh Data';
+            }, 2000);
+        }
+    } catch (error) {
+        console.error('Error refreshing bracket data:', error);
+        
+        // Show error message
+        if (refreshBtn) {
+            refreshBtn.textContent = '❌ Error';
+            setTimeout(() => {
+                refreshBtn.disabled = false;
+                refreshBtn.textContent = '🔄 Refresh Data';
+            }, 3000);
+        }
+    }
+}
 
  

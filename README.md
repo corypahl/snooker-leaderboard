@@ -90,6 +90,65 @@ npx serve .
 
 **Note:** A local server is required due to CORS restrictions when loading JSON files.
 
+## 🔄 Keeping Data Updated
+
+The tournament data is **automatically fetched from the official WST.tv API every time the page loads**. This ensures you always see the latest match results without any manual intervention.
+
+### Automatic Updates (Default Behavior)
+- ✅ **Live API calls on page load** - Fresh data every time you visit the page
+- ✅ **Real-time match results** - No need to manually update anything
+- ✅ **Smart fallback system** - Falls back to local data if API is unavailable
+- ✅ **Visual feedback** - Shows loading states and data source indicators
+
+### Manual Refresh (Optional)
+If you want to refresh the data while the page is open, you can use the refresh button in the tournament bracket section.
+
+### Legacy Manual Update (No longer needed)
+The following scripts are still available but no longer necessary for normal operation:
+
+```bash
+# Using Node.js
+node fetch-data.js
+
+# Or on Windows, double-click the batch file
+update-data.bat
+```
+
+### Check Match Status
+You can check the status of specific matches or all matches:
+
+```bash
+# Check all matches
+node check-matches.js
+
+# Check a specific match (e.g., Match 121)
+node check-matches.js 121
+```
+
+### Automatic Updates
+You can enable automatic data updates by modifying `config.js`:
+
+```javascript
+AUTO_REFRESH_ENABLED: true,  // Enable auto-refresh
+AUTO_REFRESH_INTERVAL: 5 * 60 * 1000,  // 5 minutes
+```
+
+### What Gets Updated
+- ✅ Match results and winners
+- ✅ Player progression through the tournament
+- ✅ Tournament bracket status
+- ✅ Leaderboard points calculation
+
+### Troubleshooting
+If the bracket isn't showing the latest results:
+1. **Refresh the page** - The page automatically fetches fresh data on load
+2. **Use the refresh button** - Click the "🔄 Refresh Data" button in the bracket section
+3. **Check the data source indicator** - Should show "Live API" with a timestamp
+4. **Check browser console** - Look for any error messages
+5. **Check internet connection** - The API requires an active internet connection
+
+**Note**: The page now automatically fetches live data on every page load, so manual updates are no longer required.
+
 ## 📊 Features
 
 ### Live Data Integration
