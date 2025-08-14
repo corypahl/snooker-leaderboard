@@ -254,8 +254,15 @@ class SnookerLeaderboard {
             console.log(`  ${participant.name} total points: ${participant.totalPoints}`);
         });
         
-        // Sort participants by total points (descending)
-        this.participants.sort((a, b) => b.totalPoints - a.totalPoints);
+        // Sort participants by total points (descending), then by previous rank (reverse order) as tiebreaker
+        this.participants.sort((a, b) => {
+            // First sort by total points (descending)
+            if (b.totalPoints !== a.totalPoints) {
+                return b.totalPoints - a.totalPoints;
+            }
+            // If points are equal, sort by previous rank (reverse order - higher previous rank wins)
+            return b.previousRank - a.previousRank;
+        });
         
         console.log('Final participant points:', this.participants.map(p => ({ name: p.name, points: p.totalPoints })));
     }
@@ -271,19 +278,17 @@ class SnookerLeaderboard {
         const ranks = [];
         let currentRank = 1;
         let currentPoints = null;
-        let participantsAtCurrentRank = 0;
+        let currentPreviousRank = null;
 
         participants.forEach((participant, index) => {
             const points = participant.totalPoints || 0;
+            const previousRank = participant.previousRank || 999;
             
-            // If this is a new point value, update the rank
-            if (points !== currentPoints) {
+            // If this is a new point value or different previous rank, update the rank
+            if (points !== currentPoints || previousRank !== currentPreviousRank) {
                 currentRank = index + 1;
                 currentPoints = points;
-                participantsAtCurrentRank = 1;
-            } else {
-                // Same points as previous participant - this is a tie
-                participantsAtCurrentRank++;
+                currentPreviousRank = previousRank;
             }
             
             ranks.push(currentRank);
@@ -305,7 +310,7 @@ class SnookerLeaderboard {
         const participants = this.participants;
         
         if (!participants || participants.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="7" class="loading">Loading participants...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="8" class="loading">Loading participants...</td></tr>';
             return;
         }
 
@@ -347,6 +352,7 @@ class SnookerLeaderboard {
                 <td class="pick">${pick3Html}</td>
                 <td class="points">${points}</td>
                 <td class="max-points">${maxPoints}</td>
+                <td class="previous-rank">${participant.previousRank || 'N/A'}</td>
             `;
             
             tbody.appendChild(row);

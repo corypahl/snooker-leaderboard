@@ -25,6 +25,12 @@ This site displays a live leaderboard of 12 participants, each with 3 snooker pl
 - **4 points** - Quarter-finalist
 - **2 points** - Round of 16
 
+### Tiebreaker System
+In case of ties in total points, the following tiebreaker is used:
+1. **Previous Year's League Ranking** (reverse order)
+   - Higher previous rank number wins the tie (worse previous performance wins)
+   - Previous rankings: Andrew (1), Nick (2), Brent (3), Michael (4), Eric (5), Jordan (6), Cory (7), Danny (8), Jon (9), Robby (10), Allen (11), Randy (12)
+
 ## 📁 File Structure
 
 ```

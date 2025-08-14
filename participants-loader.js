@@ -4,6 +4,22 @@
 class ParticipantsLoader {
     static GOOGLE_SCRIPT_URL = 'https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLgFPdWM7s8zmfw-4i8y0z_iuxbrjd8kJd52djwkdX_BWryHVhocHPsw40csXN2llAlQw9WUwFMoxWuz1yLWASVyW618l-UuRUlr-tlcSmJc5bBRwSAtb9vTn294OvrmOTL8xS_PDacbjfMWlk_ShSf_WaNpIOzVKJrCFW_BXf_512Iys-dQIEDvoq8K92eX9ylOYLrRC9a_E6vxgT21B6near9E7Ww707gnjjiKToi_0hNE2halEZz11BNh0csIjAzp-ebT9Xm4kaypMmTYeESRw1K_Pg&lib=MDg6EEbpVkSmbIeGxqEAbGyTRpxoN5lQD';
 
+    // Previous ranking mapping for tiebreaker
+    static PREVIOUS_RANKINGS = {
+        'Andrew': 1,
+        'Nick': 2,
+        'Brent': 3,
+        'Michael': 4,
+        'Eric': 5,
+        'Jordan': 6,
+        'Cory': 7,
+        'Danny': 8,
+        'Jon': 9,
+        'Robby': 10,
+        'Allen': 11,
+        'Randy': 12
+    };
+
     /**
      * Load participants data from Google Apps Script and transform to local format
      * @returns {Promise<Array>} Array of participants in local format
@@ -24,7 +40,8 @@ class ParticipantsLoader {
                     participant.Pick1 || null,
                     participant.Pick2 || null,
                     participant.Pick3 || null
-                ]
+                ],
+                previousRank: this.PREVIOUS_RANKINGS[participant.Participant] || 999 // Default high rank for unknown participants
             }));
         } catch (error) {
             console.error('Error loading participants from Google Script:', error);
