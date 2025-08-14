@@ -75,14 +75,20 @@ class SnookerLeaderboard {
                     }
                 } catch (apiError) {
                     console.error('API fetch failed:', apiError);
+                    // Initialize empty playersByRound to prevent errors
+                    this.playersByRound = { eliminated: {} };
                     this.renderLeaderboard();
                 }
             } else {
                 console.log('API is disabled - using static data');
+                // Initialize empty playersByRound to prevent errors
+                this.playersByRound = { eliminated: {} };
                 this.renderLeaderboard();
             }
         } catch (error) {
             console.error('Error loading data:', error);
+            // Initialize empty playersByRound to prevent errors
+            this.playersByRound = { eliminated: {} };
             this.renderLeaderboard();
         }
     }
@@ -121,7 +127,9 @@ class SnookerLeaderboard {
     }
 
     getPlayersByRound(matchesByRound) {
-        const playersByRound = {};
+        const playersByRound = {
+            eliminated: {} // Initialize eliminated object
+        };
         
         // Process rounds in order (Round 1, Round 2, Round 3, etc.)
         const roundOrder = ['Round 1', 'Round 2', 'Round 3', 'Round 4', 'Round 5', 'Round 6', 'Quarter Finals', 'Semi Finals', 'Final'];
@@ -131,33 +139,32 @@ class SnookerLeaderboard {
                 const playersInRound = new Set();
                 
                 matchesByRound[roundName].forEach(match => {
-                    // Check if both players are available (not null)
-                    if (!match.homePlayer || !match.awayPlayer) {
-                        console.log(`Skipping match with null players: ${match.name || 'Unknown match'}`);
-                        return; // Skip this match
+                    // Add players to the round (handle cases where opponent isn't determined yet)
+                    let homePlayerName = null;
+                    let awayPlayerName = null;
+                    
+                    if (match.homePlayer) {
+                        homePlayerName = `${match.homePlayer.firstName} ${match.homePlayer.surname}`;
+                        playersInRound.add(homePlayerName);
                     }
                     
-                    // Add both players to the round
-                    const homePlayerName = `${match.homePlayer.firstName} ${match.homePlayer.surname}`;
-                    const awayPlayerName = `${match.awayPlayer.firstName} ${match.awayPlayer.surname}`;
-                    
-                    playersInRound.add(homePlayerName);
-                    playersInRound.add(awayPlayerName);
+                    if (match.awayPlayer) {
+                        awayPlayerName = `${match.awayPlayer.firstName} ${match.awayPlayer.surname}`;
+                        playersInRound.add(awayPlayerName);
+                    }
                     
                     // Debug: Log Mark Williams specifically
-                    if (homePlayerName === 'Mark Williams' || awayPlayerName === 'Mark Williams') {
+                    if ((homePlayerName && homePlayerName === 'Mark Williams') || (awayPlayerName && awayPlayerName === 'Mark Williams')) {
                         console.log(`🔍 Found Mark Williams in ${roundName}: ${match.name}, status: ${match.status}, home: ${match.homePlayerScore}, away: ${match.awayPlayerScore}`);
                     }
                     
-                    // If match is completed, determine winner and loser
-                    if (match.status === 'Completed') {
+                    // If match is completed and both players are available, determine winner and loser
+                    if (match.status === 'Completed' && match.homePlayer && match.awayPlayer) {
+                        // Use the already defined variables instead of redeclaring
                         const winner = match.homePlayerScore > match.awayPlayerScore ? homePlayerName : awayPlayerName;
                         const loser = match.homePlayerScore > match.awayPlayerScore ? awayPlayerName : homePlayerName;
                         
                         // Mark loser as eliminated in this round
-                        if (!playersByRound.eliminated) {
-                            playersByRound.eliminated = {};
-                        }
                         playersByRound.eliminated[loser] = roundName;
                         
                         // Debug: Log eliminations for Mark Williams
