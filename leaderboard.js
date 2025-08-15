@@ -134,6 +134,9 @@ class SnookerLeaderboard {
         // Process rounds in order (Round 1, Round 2, Round 3, etc.)
         const roundOrder = ['Round 1', 'Round 2', 'Round 3', 'Round 4', 'Round 5', 'Round 6', 'Quarter Finals', 'Semi Finals', 'Final'];
         
+        // Track winners of semifinal matches to add them to the final
+        const semifinalWinners = new Set();
+        
         roundOrder.forEach(roundName => {
             if (matchesByRound[roundName]) {
                 const playersInRound = new Set();
@@ -167,6 +170,12 @@ class SnookerLeaderboard {
                         // Mark loser as eliminated in this round
                         playersByRound.eliminated[loser] = roundName;
                         
+                        // If this is a semifinal match, track the winner to add to final
+                        if (roundName === 'Semi Finals') {
+                            semifinalWinners.add(winner);
+                            console.log(`🏆 ${winner} won semifinal match and advances to final`);
+                        }
+                        
                         // Debug: Log eliminations for Mark Williams
                         if (loser === 'Mark Williams') {
                             console.log(`❌ Mark Williams eliminated in ${roundName}`);
@@ -182,6 +191,19 @@ class SnookerLeaderboard {
                 }
             }
         });
+        
+        // Add semifinal winners to the final round
+        if (semifinalWinners.size > 0) {
+            if (!playersByRound['Final']) {
+                playersByRound['Final'] = [];
+            }
+            semifinalWinners.forEach(winner => {
+                if (!playersByRound['Final'].includes(winner)) {
+                    playersByRound['Final'].push(winner);
+                    console.log(`🎯 Added ${winner} to Final round`);
+                }
+            });
+        }
         
         return playersByRound;
     }
